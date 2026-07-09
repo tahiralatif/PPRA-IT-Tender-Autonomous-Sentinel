@@ -321,7 +321,7 @@
         </p>
         <p style="margin-top:16px">
           Click the link to activate your subscription.<br>
-          <a href="/" onclick="showRegister(); return false;">← Back to registration</a>
+          <a href="" onclick="showRegister(); return false;">← Back to registration</a>
         </p>
       </div>
     </div>
@@ -344,7 +344,7 @@
       </form>
 
       <p style="margin-top:16px;font-size:13px">
-        Changed your mind? <a href="/" style="color:#38bdf8">← Back to registration</a>
+        Changed your mind? <a href="" style="color:#38bdf8">← Back to registration</a>
       </p>
     </div>
   </div>
@@ -354,8 +354,8 @@
   <p>
     PITAS — PPRA IT-Tender Autonomous Sentinel
     <br>
-    <a href="/unsubscribe">Unsubscribe</a> ·
-    <a href="/api/health">Health</a>
+    <a href="unsubscribe">Unsubscribe</a> ·
+    <a href="api/health">Health</a>
   </p>
 </footer>
 
@@ -363,7 +363,7 @@
   // ─── Stats ───────────────────────────────────────────────
   async function loadStats() {
     try {
-      const res = await fetch('/api/stats');
+      const res = await fetch('api/stats');
       const data = await res.json();
       document.getElementById('stat-tenders').textContent = data.tenders?.total || 0;
       document.getElementById('stat-open').textContent = data.tenders?.open || 0;
@@ -418,7 +418,7 @@
       if (province) filters.province = [province];
       if (category) filters.category = [category];
 
-      const res = await fetch('/api/register', {
+      const res = await fetch('api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, filters: Object.keys(filters).length ? filters : undefined }),
@@ -452,7 +452,7 @@
     errDiv.style.display = 'none';
 
     try {
-      const res = await fetch('/api/unsubscribe', {
+      const res = await fetch('api/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -472,7 +472,7 @@
             You won't receive any more tender alerts.
           </p>
           <p style="margin-top:16px">
-            <a href="/" style="color:#38bdf8;font-size:13px">← Re-register</a>
+            <a href="" style="color:#38bdf8;font-size:13px">← Re-register</a>
           </p>
         </div>
       `;
@@ -486,8 +486,8 @@
   }
 
   // ─── Init ────────────────────────────────────────────────
-  // Route based on URL
-  const path = window.location.pathname;
+  // Route based on URL (handles both root and /pitas/ prefix)
+  const path = window.location.pathname.replace(/^\/pitas/, '');
   if (path.startsWith('/unsubscribe')) {
     showUnsub();
   } else {
