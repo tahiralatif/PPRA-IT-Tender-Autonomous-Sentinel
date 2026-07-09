@@ -67,9 +67,25 @@ async function main() {
     if (!result.isUpdated) throw new Error('Expected isUpdated=true');
   });
 
+  // Upsert with extended deadline
+  const tender1DeadlineExtended = { ...tender1, closingDate: 'Aug 24, 2026 10:00 AM' };
+  result = db.upsertTender(tender1DeadlineExtended);
+  test('Deadline change detected as extended', () => {
+    if (!result.deadlineChanged) throw new Error('Expected deadlineChanged=true');
+    if (result.deadlineDirection !== 'extended') throw new Error(`Expected direction=extended, got ${result.deadlineDirection}`);
+  });
+
+  // Upsert with shortened deadline
+  const tender1DeadlineShortened = { ...tender1, closingDate: 'Jul 20, 2026 10:00 AM' };
+  result = db.upsertTender(tender1DeadlineShortened);
+  test('Deadline change detected as shortened', () => {
+    if (!result.deadlineChanged) throw new Error('Expected deadlineChanged=true');
+    if (result.deadlineDirection !== 'shortened') throw new Error(`Expected direction=shortened, got ${result.deadlineDirection}`);
+  });
+
   // Upsert again (should be unchanged now)
-  result = db.upsertTender(tender1Updated);
-  test('Upsert same updated content → unchanged', () => {
+  result = db.upsertTender(tender1DeadlineShortened);
+  test('Upsert same content → unchanged', () => {
     if (result.isNew) throw new Error('Expected isNew=false');
     if (result.isUpdated) throw new Error('Expected isUpdated=false');
   });
@@ -207,6 +223,33 @@ async function main() {
   const runs = db.getRecentRuns(5);
   test(`Log run → ${runs.length} runs found`, () => {
     if (runs.length < 1) throw new Error('Expected at least 1');
+  });
+
+  console.log('');
+
+  // ─── Snapshot Operations ──────────────────────────
+  console.log('📸 Snapshot Operations:');
+
+  db.saveSnapshot('epms', '<html><body>EPMS raw HTML</body></html>');
+  db.saveSnapshot('epads', '<html><body>EPADS raw HTML</body></html>');
+  // Insert old snapshots for prune test
+  db.getDb().prepare(`INSERT INTO scrape_snapshots (source, raw_html, scraped_at) VALUES ('epms', '<old/>', datetime('now', '-60 days'))`).run();
+  db.getDb().prepare(`INSERT INTO scrape_snapshots (source, raw_html, scraped_at) VALUES ('epads', '<old/>', datetime('now', '-60 days'))`).run();
+  test('Save snapshots', () => true);
+
+  const epmsSnaps = db.getRecentSnapshots('epms', 5);
+  test(`Get EPMS snapshots → ${epmsSnaps.length} found`, () => {
+    if (epmsSnaps.length < 1) throw new Error('Expected at least 1');
+  });
+
+  const allSnaps = db.getRecentSnapshots(null, 10);
+  test(`Get all snapshots → ${allSnaps.length} found`, () => {
+    if (allSnaps.length < 4) throw new Error('Expected at least 4');
+  });
+
+  const pruned = db.pruneSnapshots(30); // prune older than 30 days
+  test(`Prune old snapshots → ${pruned} removed`, () => {
+    if (pruned < 2) throw new Error('Expected at least 2 pruned');
   });
 
   console.log('');
