@@ -42,7 +42,7 @@ Automated daily alert system for IT-relevant government tenders from Pakistan's 
 - [x] **Task 7:** Orchestration — ✅ Complete script
 - [x] **Task 8:** Seed users + first live run — ✅ Complete
 - [x] **Task 9:** Deploy + monitor — ✅ Complete
-- [ ] **Task 10:** Open public registration
+- [x] **Task 10:** Open public registration — ✅ Complete
 
 ## Key Finding (Task 0)
 
