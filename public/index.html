@@ -171,6 +171,128 @@
       display: none;
     }
 
+    /* Check Now section */
+    .check-now-card { text-align: center; }
+    .check-now-card h2 { text-align: left; }
+    .check-now-card p { text-align: left; }
+
+    #check-now-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: auto;
+      padding: 14px 32px;
+      background: #f59e0b;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    #check-now-btn:hover { background: #fbbf24; }
+    #check-now-btn:disabled { background: #475569; color: #94a3b8; }
+
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #0f172a;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .check-now-meta {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 12px;
+    }
+    .check-now-meta .cached-badge {
+      display: inline-block;
+      background: #164e63;
+      color: #67e8f9;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+    .check-now-meta .fresh-badge {
+      display: inline-block;
+      background: #14532d;
+      color: #4ade80;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    .check-now-error {
+      background: #450a0a;
+      border: 1px solid #7f1d1d;
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fca5a5;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+      text-align: left;
+    }
+
+    #check-now-results {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .tender-item {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    .tender-item:hover { border-color: #38bdf8; }
+
+    .tender-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f8fafc;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .tender-title a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    .tender-title a:hover { text-decoration: underline; }
+
+    .tender-detail {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .tender-detail span {
+      margin-right: 12px;
+    }
+    .tender-detail .tender-source {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #475569;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tender-empty {
+      text-align: center;
+      padding: 24px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
     .features {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -280,6 +402,21 @@
 
         <button type="submit" id="submit-btn">Subscribe to Alerts</button>
       </form>
+    </div>
+
+    <div class="card check-now-card" id="check-now-card">
+      <h2>⚡ Check Now</h2>
+      <p>Run an on-demand scan of EPMS and EPADS portals for the latest IT tenders. This may take up to 30-60 seconds while we scrape and classify.</p>
+
+      <button id="check-now-btn" onclick="handleCheckNow()">
+        <span id="check-now-btn-text">Check Now</span>
+        <div class="spinner" id="check-now-spinner" style="display:none"></div>
+      </button>
+
+      <div class="check-now-meta" id="check-now-meta"></div>
+      <div class="check-now-error" id="check-now-error"></div>
+
+      <div id="check-now-results"></div>
     </div>
 
     <div class="card">
@@ -483,6 +620,75 @@
       btn.disabled = false;
       btn.textContent = 'Unsubscribe';
     }
+  }
+
+  // ─── Check Now ─────────────────────────────────────────
+  async function handleCheckNow() {
+    const btn = document.getElementById('check-now-btn');
+    const btnText = document.getElementById('check-now-btn-text');
+    const spinner = document.getElementById('check-now-spinner');
+    const meta = document.getElementById('check-now-meta');
+    const errorDiv = document.getElementById('check-now-error');
+    const resultsDiv = document.getElementById('check-now-results');
+
+    btn.disabled = true;
+    btnText.textContent = 'Scraping...';
+    spinner.style.display = 'inline-block';
+    errorDiv.style.display = 'none';
+    meta.innerHTML = '';
+    resultsDiv.innerHTML = '';
+    resultsDiv.style.display = 'none';
+
+    try {
+      const res = await fetch('api/check-now');
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Check failed');
+      }
+
+      // Build meta info
+      const duration = data.scrape_duration_ms ? `${(data.scrape_duration_ms / 1000).toFixed(1)}s` : '';
+      let badge = '';
+      if (data.cached) {
+        badge = '<span class="cached-badge">cached</span>';
+      } else if (duration) {
+        badge = '<span class="fresh-badge">fresh</span>';
+      }
+      meta.innerHTML = `${data.tenders.length} IT tender${data.tenders.length !== 1 ? 's' : ''} found${badge ? ' — ' + badge : ''}${duration ? ' · ' + duration + ' scrape' : ''}`;
+
+      // Render results
+      if (data.tenders.length === 0) {
+        resultsDiv.innerHTML = '<div class="tender-empty">No IT-relevant tenders found at this time.</div>';
+      } else {
+        resultsDiv.innerHTML = data.tenders.map(t => `
+          <div class="tender-item">
+            <div class="tender-title">
+              ${t.url ? `<a href="${escapeHtml(t.url)}" target="_blank" rel="noopener">${escapeHtml(t.title)}</a>` : escapeHtml(t.title)}
+            </div>
+            <div class="tender-detail">
+              ${t.department ? `<span>🏢 ${escapeHtml(t.department)}</span>` : ''}
+              ${t.closing_date ? `<span>📅 Closes: ${escapeHtml(t.closing_date)}</span>` : ''}
+              <span class="tender-source">${escapeHtml(t.source)}</span>
+              ${t.classification_reason ? `<span title="${escapeHtml(t.classification_reason)}">ℹ️ ${escapeHtml(t.classification_method)}</span>` : ''}
+            </div>
+          </div>
+        `).join('');
+      }
+      resultsDiv.style.display = 'block';
+    } catch (err) {
+      errorDiv.textContent = err.message;
+      errorDiv.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Check Now';
+      spinner.style.display = 'none';
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   // ─── Init ────────────────────────────────────────────────
