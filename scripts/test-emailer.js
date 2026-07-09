@@ -121,14 +121,14 @@ async function runTests() {
   console.log('\n📮 Dry-Run Sending:');
   db.init();
 
-  const user = db.registerUser('test@example.com', { province: ['Federal'] });
+  const user = db.registerUser('emailer-test@example.com', { province: ['Federal'] });
   db.verifyUser(user.verifyToken);
 
-  const vResult = await emailer.sendVerification({ email: 'test@example.com', verify_token: user.verifyToken });
+  const vResult = await emailer.sendVerification({ email: 'emailer-test@example.com', verify_token: user.verifyToken });
   assert('Verification dry-run returns sent=false', vResult.sent === false);
 
   const dResult = await emailer.sendDigest(
-    { email: 'test@example.com', unsubscribe_token: user.unsubscribeToken },
+    { email: 'emailer-test@example.com', unsubscribe_token: user.unsubscribeToken },
     { newTenders: [{ title: 'Test', url: 'https://example.com' }], updatedTenders: [] }
   );
   assert('Digest dry-run returns sent=false', dResult.sent === false);
