@@ -1,5 +1,7 @@
 # 🇵🇰 PPRA IT-Tender Autonomous Sentinel (PITAS)
 
+> **Live → [server.14.jugaar.ai/pitas](https://server.14.jugaar.ai/pitas)**
+
 Automated daily alert system for IT-relevant government tenders from Pakistan's PPRA/EPADS procurement portals.
 
 ## What It Does
@@ -9,6 +11,14 @@ Automated daily alert system for IT-relevant government tenders from Pakistan's 
 3. **Deduplicates** across sources and detects tender updates (amended deadlines, addenda)
 4. **Emails** a daily digest of IT-relevant tenders to registered users
 
+## 🔗 Links
+
+| | |
+|---|---|
+| **Live App** | [server.14.jugaar.ai/pitas](https://server.14.jugaar.ai/pitas) |
+| **Register** | [server.14.jugaar.ai/pitas](https://server.14.jugaar.ai/pitas) |
+| **Health Check** | [server.14.jugaar.ai/pitas/api/health](https://server.14.jugaar.ai/pitas/api/health) |
+
 ## Architecture
 
 ```
@@ -16,7 +26,7 @@ Automated daily alert system for IT-relevant government tenders from Pakistan's 
     → [fetch + cheerio scraper] (EPMS sector=14 + EPADS)
     → [keyword pre-filter] → [Groq/Llama-3 for ambiguous]
     → [dedup + update detection] → [SQLite]
-    → [match user preferences] → [Resend email digest]
+    → [match user preferences] → [Gmail SMTP email digest]
 ```
 
 ## Tech Stack
@@ -25,24 +35,44 @@ Automated daily alert system for IT-relevant government tenders from Pakistan's 
 - **Scheduler:** Linux cron (twice daily)
 - **AI:** Groq API + Llama-3 (only for ambiguous classification)
 - **Database:** SQLite via `better-sqlite3`
-- **Email:** Resend (free tier: 100/day)
+- **Email:** Gmail SMTP via nodemailer (free, no domain verification needed)
 - **Backend:** Node.js + Express
 - **Frontend:** Single HTML file (registration + unsubscribe)
 - **Deployment:** VPS `server.14.jugaar.ai`, PM2 + cron
+- **Proxy:** Nginx reverse proxy at `/pitas`
+
+## Quick Start
+
+```bash
+# Clone
+git clone https://github.com/tahiralatif/PPRA-IT-Tender-Autonomous-Sentinel.git
+cd PPRA-IT-Tender-Autonomous-Sentinel
+
+# Install
+npm install
+
+# Configure
+cp .env.example .env
+# Edit .env with your Gmail App Password and Groq API key
+
+# Run
+node scripts/daily-run.js          # Full pipeline
+node scripts/daily-run.js --dry-run # Preview without sending
+```
 
 ## Project Status
 
 - [x] **Task 0:** Data source validation — ✅ Complete
 - [x] **Task 1:** Scraper module (EPMS + EPADS) — ✅ Complete
-- [x] **Task 2:** Scraper module (add EPMS) — ✅ Complete (included in Task 1)
-- [x] **Task 3:** Classification module — ✅ Complete
-- [x] **Task 4:** Database + dedup + update detection — ✅ Complete
-- [x] **Task 5:** API + frontend — ✅ Complete
-- [x] **Task 6:** Emailer — ✅ Complete
-- [x] **Task 7:** Orchestration — ✅ Complete script
-- [x] **Task 8:** Seed users + first live run — ✅ Complete
-- [x] **Task 9:** Deploy + monitor — ✅ Complete
-- [x] **Task 10:** Open public registration — ✅ Complete
+- [x] **Task 2:** Classification module — ✅ Complete
+- [x] **Task 3:** Database + dedup + update detection — ✅ Complete
+- [x] **Task 4:** API + frontend — ✅ Complete
+- [x] **Task 5:** Emailer — ✅ Complete
+- [x] **Task 6:** Orchestration — ✅ Complete
+- [x] **Task 7:** Seed users + first live run — ✅ Complete
+- [x] **Task 8:** Deploy + monitor — ✅ Complete
+- [x] **Task 9:** Open public registration — ✅ Complete
+- [x] **Task 10:** On-demand check feature — ✅ Complete (PR #1)
 
 ## Key Finding (Task 0)
 
