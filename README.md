@@ -33,7 +33,7 @@ Automated daily alert system for IT-relevant government tenders from Pakistan's 
 ## Project Status
 
 - [x] **Task 0:** Data source validation — ✅ Complete
-- [ ] **Task 1:** Scraper module (EPADS v2.0)
+- [x] **Task 1:** Scraper module (EPMS + EPADS) — ✅ Complete
 - [ ] **Task 2:** Scraper module (add EPMS)
 - [ ] **Task 3:** Classification module
 - [ ] **Task 4:** Database + dedup + update detection
