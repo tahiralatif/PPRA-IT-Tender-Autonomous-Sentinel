@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Trust first proxy (nginx reverse proxy)
+app.set('trust proxy', 1);
+
 // ─── Static files ───────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
 
