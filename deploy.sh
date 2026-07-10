@@ -58,9 +58,16 @@ pm2 start ecosystem.config.js
 pm2 save
 
 echo ""
-echo "✅ Deploy complete. Checking health..."
-sleep 2
-HEALTH=$(curl -sf http://localhost:3001/api/health 2>/dev/null || echo '{"status":"unreachable"}')
-echo "   $HEALTH"
-echo ""
-echo "   Logs: pm2 logs $PM2_NAME --lines 5"
+# Health check with retries
+for i in 1 2 3 4 5; do
+  HEALTH=$(curl -sf http://localhost:${PORT:-3001}/api/health 2>/dev/null)
+  if echo "$HEALTH" | grep -q '"status":"ok"'; then
+    echo "✅ Deploy complete — health: $HEALTH"
+    exit 0
+  fi
+  echo "  Waiting for server... ($i/5)"
+  sleep 2
+done
+
+echo "⚠️  Server started but health check failed. Check: pm2 logs $PM2_NAME --lines 10"
+exit 1
