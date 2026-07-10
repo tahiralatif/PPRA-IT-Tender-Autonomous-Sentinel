@@ -1,6 +1,6 @@
 # 🇵🇰 PITAS — PPRA IT-Tender Autonomous Sentinel
 
-> **Live → [server.14.jugaar.ai/pitas](https://server.14.jugaar.ai/pitas)**
+> **Live → [pitas.14.jugaar.ai](https://pitas.14.jugaar.ai)**
 
 Automated daily alert system for IT-relevant government tenders from Pakistan's PPRA/EPADS procurement portals.
 
@@ -181,7 +181,7 @@ All endpoints are prefixed with the app's base path (e.g. `/pitas/api/...`).
 
 ## Deployment Notes
 
-- **Live URL:** [server.14.jugaar.ai/pitas](https://server.14.jugaar.ai/pitas)
+- **Live URL:** [pitas.14.jugaar.ai](https://pitas.14.jugaar.ai)
 - **VPS:** Deployed alongside the Website Audit Portal on the same server
 - **Reverse proxy:** nginx serves both apps on different paths (`/pitas` for PITAS, `/` for the audit portal)
 - **Port:** Runs on port 3001 (internal), proxied through nginx
