@@ -17,10 +17,8 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const db = require('../lib/db');
-const scraper = require('../lib/scraper');
-const classify = require('../lib/classify');
 const emailer = require('../lib/emailer');
-const config = require('../lib/config');
+const { runPipeline } = require('../lib/pipeline');
 
 // ─── Parse CLI args ─────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -48,173 +46,50 @@ function logError(msg, err) {
   if (err?.stack) logStream.write(err.stack + '\n');
 }
 
-// ─── Main Pipeline ──────────────────────────────────────────────
-async function run() {
-  const startTime = Date.now();
-  const runStats = {
-    startedAt: new Date().toISOString(),
-    source,
-    tendersScraped: 0,
-    relevantCount: 0,
-    newCount: 0,
-    updatedCount: 0,
-    emailsSent: 0,
-    errors: [],
-  };
-
+// ─── Main ───────────────────────────────────────────────────────
+async function main() {
   log('═══════════════════════════════════════════════════');
   log(`PITAS Daily Run — ${dryRun ? 'DRY RUN' : 'LIVE'}`);
   log(`Source: ${source}`);
   log('═══════════════════════════════════════════════════');
 
   try {
-    // ─── Step 1: Initialize ───────────────────────────────
-    log('\n📋 Step 1: Initializing...');
     db.init();
-    log('  Database initialized');
 
-    // ─── Step 2: Scrape ───────────────────────────────────
-    log('\n🔍 Step 2: Scraping portals...');
-    let scrapeResults;
+    const stats = await runPipeline({ source, onProgress: log });
 
-    if (source === 'epms') {
-      const epmsTenders = await scraper.scrapeEPMS();
-      scrapeResults = { epms: epmsTenders, epads: [], errors: [] };
-    } else if (source === 'epads') {
-      const epadsTenders = await scraper.scrapeEPADS();
-      scrapeResults = { epms: [], epads: epadsTenders, errors: [] };
-    } else {
-      scrapeResults = await scraper.scrapeAll();
-    }
-
-    const allTenders = [...scrapeResults.epms, ...scrapeResults.epads];
-    runStats.tendersScraped = allTenders.length;
-
-    log(`  Scraped: ${scrapeResults.epms.length} EPMS + ${scrapeResults.epads.length} EPADS = ${allTenders.length} total`);
-
-    if (scrapeResults.errors.length > 0) {
-      for (const e of scrapeResults.errors) {
-        runStats.errors.push(`Scrape ${e.source}: ${e.error}`);
-        logError(`Scrape ${e.source}`, e.error);
-      }
-    }
-
-    if (allTenders.length === 0) {
-      const msg = 'Scraper returned 0 tenders — site structure may have changed or be blocked';
-      runStats.errors.push(msg);
-      logError(msg);
-      await sendAdminAlert(msg);
-    }
-
-    // ─── Step 3: Classify ────────────────────────────────
-    log('\n🧠 Step 3: Classifying tenders...');
-    const classified = await classify.classifyBatch(allTenders);
-
-    const relevant = classified.relevant;
-    runStats.relevantCount = relevant.length;
-
-    log(`  Results: ${relevant.length} IT-relevant, ${classified.excluded.length} excluded`);
-    log(`  Stats: ${JSON.stringify(classified.stats)}`);
-
-    // ─── Step 4: Store (dedupe + update detection) ────────
-    log('\n💾 Step 4: Storing in database...');
-    let newCount = 0;
-    let updatedCount = 0;
-    let unchangedCount = 0;
-
-    const updatedTenders = [];
-
-    for (const tender of relevant) {
-      const result = db.upsertTender(tender);
-
-      if (result.isNew) {
-        newCount++;
-      } else if (result.isUpdated) {
-        updatedCount++;
-        if (result.deadlineChanged) {
-          updatedTenders.push({
-            tender,
-            oldClosingDate: result.oldClosingDate,
-            newClosingDate: result.newClosingDate,
-            direction: result.deadlineDirection,
-          });
-        }
-      } else {
-        unchangedCount++;
-      }
-    }
-
-    runStats.newCount = newCount;
-    runStats.updatedCount = updatedCount;
-
-    log(`  New: ${newCount}, Updated: ${updatedCount}, Unchanged: ${unchangedCount}`);
-    if (updatedTenders.length > 0) {
-      log(`  Deadline changes: ${updatedTenders.length}`);
-      for (const u of updatedTenders) {
-        log(`    ${u.tender.title}: ${u.oldClosingDate} → ${u.newClosingDate} (${u.direction})`);
-      }
-    }
-
-    // ─── Step 5: Save snapshots to DB ────────────────────
-    log('\n📸 Step 5: Saving snapshots...');
-    try {
-      if (scrapeResults.epms.length > 0) {
-        db.saveSnapshot('epms', `EPMS listing — ${scrapeResults.epms.length} tenders`);
-      }
-      if (scrapeResults.epads.length > 0) {
-        db.saveSnapshot('epads', `EPADS listing — ${scrapeResults.epads.length} tenders`);
-      }
-    } catch (e) {
-      logError('Snapshot save', e);
-    }
-
-    // ─── Step 6: Email digests ───────────────────────────
-    log('\n📧 Step 6: Sending email digests...');
+    // ─── Email digests ───────────────────────────────
     if (dryRun) {
-      log('  DRY RUN — skipping email sending');
+      log('\n📧 DRY RUN — skipping email sending');
       log(`  Would send to ${db.getVerifiedUsers().length} users`);
-      log(`  New tenders: ${newCount}, Updated: ${updatedCount}`);
+      log(`  New tenders: ${stats.newCount}, Updated: ${stats.updatedCount}`);
     } else {
+      log('\n📧 Sending email digests...');
       const emailResult = await emailer.sendDailyDigests({
-        newTenders: relevant,
-        updatedTenders,
+        newTenders: stats.tenders,
+        updatedTenders: stats.updatedTenders,
       });
-      runStats.emailsSent = emailResult.sent;
+      stats.emailsSent = emailResult.sent;
       log(`  Sent: ${emailResult.sent}, Skipped: ${emailResult.skipped}, Errors: ${emailResult.errors}`);
     }
 
-    // ─── Step 7: Log run ─────────────────────────────────
-    log('\n📊 Step 7: Logging run...');
-    const durationMs = Date.now() - startTime;
-    runStats.durationMs = durationMs;
-    runStats.errors = runStats.errors.length > 0 ? JSON.stringify(runStats.errors) : null;
-
-    db.logRun(runStats);
-    log('  Run logged to database');
-
-    // ─── Summary ─────────────────────────────────────────
+    // ─── Summary ─────────────────────────────────────
     log('\n═══════════════════════════════════════════════════');
-    log('✅ Pipeline complete!');
-    log(`  Duration: ${(durationMs / 1000).toFixed(1)}s`);
-    log(`  Scraped: ${runStats.tendersScraped}`);
-    log(`  IT-relevant: ${runStats.relevantCount}`);
-    log(`  New: ${runStats.newCount}, Updated: ${runStats.updatedCount}`);
-    log(`  Emails sent: ${runStats.emailsSent}`);
-    if (runStats.errors) log(`  Errors: ${runStats.errors}`);
+    log('✅ Daily run complete!');
+    log(`  Duration: ${(stats.durationMs / 1000).toFixed(1)}s`);
+    log(`  Scraped: ${stats.tendersScraped}`);
+    log(`  IT-relevant: ${stats.relevantCount}`);
+    log(`  New: ${stats.newCount}, Updated: ${stats.updatedCount}`);
+    log(`  Emails sent: ${stats.emailsSent || 0}`);
+    if (stats.errors) log(`  Errors: ${stats.errors}`);
     log('═══════════════════════════════════════════════════\n');
-
   } catch (err) {
     logError('Pipeline failed', err);
-    runStats.errors = JSON.stringify([err.message]);
-    runStats.durationMs = Date.now() - startTime;
-
     try {
-      db.logRun(runStats);
+      await emailer.sendAdminAlert(`Pipeline failed: ${err.message}\n\n${err.stack || ''}`);
     } catch (e) {
-      // DB might not be initialized
+      logError('Failed to send admin alert', e);
     }
-
-    await sendAdminAlert(`Pipeline failed: ${err.message}\n\n${err.stack || ''}`);
     process.exitCode = 1;
   } finally {
     logStream.end();
@@ -222,12 +97,4 @@ async function run() {
   }
 }
 
-async function sendAdminAlert(message) {
-  try {
-    await emailer.sendAdminAlert(message);
-  } catch (e) {
-    logError('Failed to send admin alert', e);
-  }
-}
-
-run();
+main();
