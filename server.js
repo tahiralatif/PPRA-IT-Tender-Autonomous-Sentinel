@@ -42,6 +42,16 @@ app.listen(PORT, () => {
   console.log(`[server] Unsubscribe: http://localhost:${PORT}/unsubscribe`);
 });
 
+// ─── Error handling ─────────────────────────────────────────────
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[FATAL] Unhandled promise rejection:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[FATAL] Uncaught exception:', err);
+  // Log and stay alive — PM2 will restart if we do crash
+});
+
 // Graceful shutdown
 process.on('SIGINT', () => {
   console.log('\n[server] Shutting down...');
