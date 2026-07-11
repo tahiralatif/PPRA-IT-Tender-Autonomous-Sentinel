@@ -640,7 +640,7 @@
     resultsDiv.style.display = 'none';
 
     try {
-      const res = await fetch('api/check-now');
+      const res = await fetch('/api/check-now');
       const data = await res.json();
 
       if (!res.ok) {

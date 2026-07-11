@@ -1,0 +1,77 @@
+diff --git a/lib/config.js b/lib/config.js
+index abc1234..def5678 100644
+--- a/lib/config.js
++++ b/lib/config.js
+@@ -25,10 +25,13 @@ module.exports = {
+     },
+   },
+ 
+-  // IT-relevant keyword list (hard-include)
++  // IT-relevant keyword list (hard-include)
++  // Focused on core IT/software/hardware/networking/cloud/cybersecurity.
++  // Removed overly broad terms that cause false positives.
+   keywords: {
+     include: [
+-      'software', 'hardware', 'networking', 'network', 'information technology',
++      // Software
++      'software', 'information technology',
+       'computer network', 'computer hardware', 'computer software',
+       'computer system', 'computer server',
+-      'laptop', 'server', 'database', 'cloud', 'cybersecurity', 'security system',
+-      'security services', 'managed security',
++      'laptop', 'server', 'database', 'cloud', 'cybersecurity',
+       'ERP system', 'ERP software', 'ERP solution',
+-      'CRM', 'CCTV', 'surveillance', 'bandwidth', 'fiber optic',
++      'CRM',
++      'SCADA', 'automation system', 'digital', 'digitization',
++      'AI platform', 'artificial intelligence', 'machine learning',
++      'web development', 'mobile application', 'app development',
++      
++      // Hardware / Computing
++      'hardware', 'GPU',
++      
++      // Networking
++      'networking', 'network', 'bandwidth', 'fiber optic',
+       'data center', 'datacentre', 'backup', 'disaster recovery', 'VPN', 'firewall',
+-      'switch', 'router', 'access point', 'Wi-Fi', 'WiFi', 'internet', 'web development',
+-      'mobile application', 'app development', 'AI platform', 'artificial intelligence',
+-      'machine learning', 'SCADA', 'automation system', 'digital', 'digitization',
++      'switch', 'router', 'access point', 'Wi-Fi', 'WiFi', 'internet',
+       'ICT', 'communication system', 'VSAT', 'satellite', 'telecommunications',
+-      'telecom', 'point of sale', 'biometric', 'attendance system',
+-      'projector', 'display', 'audio visual', 'printing machine', 'copier',
+-      'scanner', 'server rack', 'structured cabling',
++      'telecom', 'point of sale', 'biometric', 'attendance system', 'CCTV', 'surveillance',
++      'audio visual', 'server rack', 'structured cabling',
+       'GPU', 'cloud infrastructure', 'hosting', 'domain', 'SSL', 'DNS',
+-      'IT infrastructure', 'IT services', 'IT solutions', 'IT support',
+-      'IT stores',
++      'IT infrastructure', 'IT services', 'IT solutions', 'IT support', 'IT stores',
+       'cyber security', 'information security', 'data protection',
+       'IPv4', 'IPv6', 'IP address', 'PABX', 'IP PABX',
+-      'ISO 27001', 'ISO/IEC', '27001',
+-      'license', 'annual license',
++      'ISO 27001', 'ISO/IEC 27001',
++      'managed security',
+     ],
+     // Hard-exclude: when these dominate the title, skip AI classification
+     exclude: [
+       'food items', 'rice', 'wheat', 'flour', 'milk', 'meat', 'vegetable', 'catering',
++      'dry ration', 'cooking oil', 'spices',
+       'construction', 'civil works', 'road', 'bridge', 'building construction',
++      'renovation', 'repair works', 'plumbing', 'electrical works',
+       'medical equipment', 'medicine', 'surgical', 'pharmaceutical',
++      'laboratory', 'lab equipment', 'reagent',
+       'uniform', 'clothing', 'fabric', 'textile',
+       'fuel', 'petroleum', 'diesel', 'petrol', 'lubricant',
+-      'furniture', 'fixture', 'office chair', 'desk',
++      'furniture', 'fixture', 'office chair', 'desk', 'office table',
++      'office supplies', 'stationery', 'paper',
++      'vehicle', 'automobile', 'car', 'jeep', 'truck', 'bus', 'ambulance', 'motorcycle',
++      'generator', 'solar panel', 'solar system', 'power plant', 'UPS system', 'transformer',
++      'air conditioner', 'HVAC', 'air conditioning', 'chiller',
++      'water supply', 'sewerage', 'drainage', 'waste management',
++      'printing machine', 'printing press', 'photocopier', 'xerox',
++      'security guard', 'security guard services', 'guarding services', 'security personnel',
+     ],
+   },
