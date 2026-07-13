@@ -10,9 +10,11 @@
 
     /* ── Tokens ───────────────────────────────────────────── */
     :root {
+      --green-800: #004d00;
       --green-700: #006400;
       --green-600: #007a00;
       --green-500: #009400;
+      --green-400: #2ba52b;
       --green-100: #e6f4e6;
       --green-50:  #f0faf0;
       --gray-50:   #f8f9fa;
@@ -27,16 +29,17 @@
       --gray-900:  #212529;
       --white:     #ffffff;
       --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
-      --shadow-lg: 0 10px 30px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 14px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg: 0 12px 36px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.05);
+      --shadow-card: 0 2px 8px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
       --radius:    8px;
       --radius-lg: 12px;
-      --max-w:     680px;
+      --radius-xl: 16px;
+      --max-w:     700px;
     }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif;
-      background: var(--gray-50);
       color: var(--gray-800);
       min-height: 100vh;
       display: flex;
@@ -44,61 +47,117 @@
       align-items: center;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      background: var(--gray-100);
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(0,100,0,.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0,100,0,.02) 0%, transparent 40%);
     }
 
-    /* ── Layout ───────────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
+    /* ── Hero Banner ──────────────────────────────────────── */
+    .hero-banner {
       width: 100%;
-      padding: 48px 20px 32px;
-    }
-
-    /* ── Header / Hero ────────────────────────────────────── */
-    .hero {
+      background: linear-gradient(135deg, var(--green-700) 0%, var(--green-600) 40%, var(--green-500) 100%);
+      padding: 48px 20px 44px;
       text-align: center;
-      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle at 15% 80%, rgba(255,255,255,.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,.05) 0%, transparent 35%);
+      pointer-events: none;
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-800), var(--green-400), var(--green-800));
     }
 
-    .flag { font-size: 44px; margin-bottom: 10px; }
+    /* ── Badge / Logo ─────────────────────────────────────── */
+    .badge-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .badge {
+      width: 72px;
+      height: 72px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+    }
 
     h1 {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
-      color: var(--green-700);
-      margin-bottom: 6px;
+      color: var(--white);
+      margin-bottom: 8px;
       letter-spacing: -0.3px;
+      text-shadow: 0 1px 3px rgba(0,0,0,.15);
+      position: relative;
     }
 
     .subtitle {
       font-size: 14.5px;
-      color: var(--gray-600);
+      color: rgba(255,255,255,.82);
       line-height: 1.6;
-      max-width: 440px;
+      max-width: 460px;
       margin: 0 auto;
+      position: relative;
     }
 
-    /* ── Stats ────────────────────────────────────────────── */
+    /* ── Container ────────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      width: 100%;
+      padding: 0 20px 32px;
+      margin-top: -8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Stats Section ────────────────────────────────────── */
+    .stats-section {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(0,0,0,.04);
+    }
+
     .stats {
       display: flex;
-      gap: 14px;
+      gap: 16px;
       justify-content: center;
-      margin: 28px 0 32px;
     }
 
     .stat {
-      background: var(--white);
+      background: var(--gray-50);
       border: 1px solid var(--gray-200);
+      border-top: 3px solid var(--green-600);
       border-radius: var(--radius-lg);
-      padding: 18px 28px;
+      padding: 20px 28px;
       text-align: center;
-      min-width: 130px;
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow .2s;
+      min-width: 140px;
+      flex: 1;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
     }
-    .stat:hover { box-shadow: var(--shadow-md); }
+    .stat:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
 
     .stat-number {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 700;
       color: var(--green-700);
       line-height: 1.1;
@@ -109,31 +168,52 @@
       color: var(--gray-500);
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      margin-top: 5px;
-      font-weight: 500;
+      margin-top: 6px;
+      font-weight: 600;
     }
 
     /* ── Cards ────────────────────────────────────────────── */
     .card {
       background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,.05);
+      border-radius: var(--radius-xl);
       padding: 32px;
       margin-bottom: 20px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-card);
+      transition: box-shadow .2s;
     }
+    .card:hover { box-shadow: var(--shadow-lg); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card-header-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green-100);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-header-icon svg { width: 18px; height: 18px; }
 
     .card h2 {
       font-size: 17px;
       font-weight: 600;
       color: var(--gray-900);
-      margin-bottom: 6px;
     }
 
     .card > p {
       font-size: 13.5px;
       color: var(--gray-600);
       margin-bottom: 20px;
+      margin-top: 4px;
       line-height: 1.6;
     }
 
@@ -177,8 +257,8 @@
     /* ── Buttons ──────────────────────────────────────────── */
     button {
       width: 100%;
-      padding: 12px 20px;
-      background: var(--green-700);
+      padding: 13px 20px;
+      background: linear-gradient(135deg, var(--green-700), var(--green-600));
       color: var(--white);
       border: none;
       border-radius: var(--radius);
@@ -186,13 +266,22 @@
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
-      transition: background .2s, transform .1s;
+      transition: background .2s, transform .1s, box-shadow .2s;
       letter-spacing: 0.1px;
+      box-shadow: 0 2px 8px rgba(0,100,0,.2);
     }
 
-    button:hover { background: var(--green-600); }
+    button:hover {
+      background: linear-gradient(135deg, var(--green-600), var(--green-500));
+      box-shadow: 0 4px 14px rgba(0,100,0,.25);
+    }
     button:active { transform: scale(0.985); }
-    button:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; }
+    button:disabled {
+      background: var(--gray-300);
+      color: var(--gray-500);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
 
     /* ── Success View ─────────────────────────────────────── */
     .success { text-align: center; padding: 36px 20px; }
@@ -217,7 +306,7 @@
 
     /* ── Check Now ────────────────────────────────────────── */
     .check-now-card { text-align: center; }
-    .check-now-card h2 { text-align: left; }
+    .check-now-card .card-header { justify-content: flex-start; }
     .check-now-card > p { text-align: left; }
 
     #check-now-btn {
@@ -226,13 +315,17 @@
       justify-content: center;
       gap: 8px;
       width: auto;
-      padding: 12px 28px;
-      background: var(--green-700);
+      padding: 13px 32px;
+      background: linear-gradient(135deg, var(--green-700), var(--green-600));
       color: var(--white);
       font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,100,0,.2);
     }
-    #check-now-btn:hover { background: var(--green-600); }
-    #check-now-btn:disabled { background: var(--gray-300); color: var(--gray-500); }
+    #check-now-btn:hover {
+      background: linear-gradient(135deg, var(--green-600), var(--green-500));
+      box-shadow: 0 4px 14px rgba(0,100,0,.25);
+    }
+    #check-now-btn:disabled { background: var(--gray-300); color: var(--gray-500); box-shadow: none; }
 
     .spinner {
       display: inline-block;
@@ -288,16 +381,19 @@
 
     /* ── Tender Items ─────────────────────────────────────── */
     .tender-item {
-      background: var(--white);
+      background: var(--gray-50);
       border: 1px solid var(--gray-200);
+      border-left: 3px solid var(--green-600);
       border-radius: var(--radius);
       padding: 16px 18px;
       margin-bottom: 10px;
-      transition: border-color .2s, box-shadow .2s;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
     }
     .tender-item:hover {
       border-color: var(--green-500);
+      border-left-color: var(--green-500);
       box-shadow: var(--shadow-sm);
+      transform: translateX(2px);
     }
 
     .tender-title {
@@ -321,14 +417,15 @@
     .tender-detail span { margin-right: 12px; }
     .tender-detail .tender-source {
       display: inline-block;
-      background: var(--gray-100);
-      border: 1px solid var(--gray-200);
+      background: var(--green-50);
+      border: 1px solid var(--green-100);
       padding: 1px 6px;
       border-radius: 4px;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--gray-600);
+      color: var(--green-700);
+      font-weight: 600;
     }
 
     .tender-empty {
@@ -342,33 +439,38 @@
     .features {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
       margin-top: 16px;
     }
 
     .feature {
       background: var(--gray-50);
       border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      padding: 16px;
-      transition: border-color .2s;
+      border-radius: var(--radius-lg);
+      padding: 18px 16px;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
     }
-    .feature:hover { border-color: var(--green-500); }
+    .feature:hover {
+      border-color: var(--green-400);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
 
-    .feature-icon { font-size: 20px; margin-bottom: 6px; }
+    .feature-icon { font-size: 22px; margin-bottom: 8px; }
     .feature-title { font-size: 13px; font-weight: 600; color: var(--gray-800); }
-    .feature-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; line-height: 1.5; }
+    .feature-desc { font-size: 12px; color: var(--gray-500); margin-top: 3px; line-height: 1.5; }
 
     /* ── Footer ───────────────────────────────────────────── */
     footer {
-      margin-top: 40px;
-      padding: 24px 20px;
+      margin-top: 20px;
+      padding: 28px 20px;
       text-align: center;
       font-size: 12px;
       color: var(--gray-500);
       border-top: 1px solid var(--gray-200);
       width: 100%;
       max-width: var(--max-w);
+      background: var(--white);
     }
     footer a { color: var(--gray-500); text-decoration: none; }
     footer a:hover { color: var(--green-700); }
@@ -381,46 +483,83 @@
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 520px) {
-      .container { padding: 32px 16px 24px; }
+      .hero-banner { padding: 36px 16px 32px; }
+      .container { padding: 0 16px 24px; }
       .stats { flex-direction: column; align-items: center; }
       .stat { min-width: 100%; }
       .features { grid-template-columns: 1fr; }
       .card { padding: 24px 20px; }
-      h1 { font-size: 22px; }
+      h1 { font-size: 23px; }
+      .badge { width: 60px; height: 60px; }
     }
   </style>
 </head>
 <body>
 
+<!-- ─── Hero Banner ──────────────────────────────────────── -->
+<div class="hero-banner">
+  <div class="badge-wrap">
+    <!-- Custom PITAS badge: shield + document + green star accent -->
+    <svg class="badge" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shield shape -->
+      <path d="M36 4 L62 16 L62 36 C62 52 50 64 36 68 C22 64 10 52 10 36 L10 16 Z"
+            fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+      <!-- Inner shield -->
+      <path d="M36 9 L57 19 L57 36 C57 50 47 60 36 63 C25 60 15 50 15 36 L15 19 Z"
+            fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+      <!-- Document icon -->
+      <rect x="25" y="22" width="22" height="28" rx="2" fill="rgba(255,255,255,.9)" stroke="rgba(0,80,0,.3)" stroke-width="1"/>
+      <line x1="29" y1="30" x2="43" y2="30" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="29" y1="35" x2="43" y2="35" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="29" y1="40" x2="38" y2="40" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Green star accent (Pakistan flag element) -->
+      <polygon points="36,12 37.5,16.5 42,16.5 38.3,19.2 39.8,23.5 36,20.8 32.2,23.5 33.7,19.2 30,16.5 34.5,16.5"
+               fill="#009400" stroke="rgba(255,255,255,.4)" stroke-width=".5"/>
+      <!-- Corner accents -->
+      <circle cx="36" cy="66" r="2" fill="rgba(255,255,255,.3)"/>
+    </svg>
+  </div>
+  <h1>PITAS Tender Alerts</h1>
+  <p class="subtitle">
+    Never miss an IT government tender from Pakistan's PPRA portals.
+    Daily email digest, powered by automation.
+  </p>
+</div>
+
+<!-- ─── Main Content ─────────────────────────────────────── -->
 <div class="container" id="app">
   <!-- Registration View -->
   <div id="view-register">
-    <div class="hero">
-      <div class="flag">🇵🇰</div>
-      <h1>PITAS Tender Alerts</h1>
-      <p class="subtitle">
-        Never miss an IT government tender from Pakistan's PPRA portals.
-        Daily email digest, powered by automation.
-      </p>
-    </div>
 
-    <div class="stats" id="stats">
-      <div class="stat">
-        <div class="stat-number" id="stat-tenders">—</div>
-        <div class="stat-label">IT Tenders Found</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" id="stat-open">—</div>
-        <div class="stat-label">Currently Open</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" id="stat-users">—</div>
-        <div class="stat-label">Subscribers</div>
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stats" id="stats">
+        <div class="stat">
+          <div class="stat-number" id="stat-tenders">—</div>
+          <div class="stat-label">IT Tenders Found</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="stat-open">—</div>
+          <div class="stat-label">Currently Open</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="stat-users">—</div>
+          <div class="stat-label">Subscribers</div>
+        </div>
       </div>
     </div>
 
+    <!-- Registration Card -->
     <div class="card">
-      <h2>Get Daily IT Tender Alerts</h2>
+      <div class="card-header">
+        <div class="card-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h2>Get Daily IT Tender Alerts</h2>
+      </div>
       <p>Register your email to receive a daily digest of IT-relevant government tenders from EPMS and EPADS.</p>
 
       <div class="error-msg" id="error-msg"></div>
@@ -464,8 +603,17 @@
       </form>
     </div>
 
+    <!-- Check Now Card -->
     <div class="card check-now-card" id="check-now-card">
-      <h2>⚡ Check Now</h2>
+      <div class="card-header">
+        <div class="card-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <h2>Check Now</h2>
+      </div>
       <p>Run an on-demand scan of EPMS and EPADS portals for the latest IT tenders. This may take up to 30-60 seconds while we scrape and classify.</p>
 
       <button id="check-now-btn" onclick="handleCheckNow()">
@@ -479,8 +627,16 @@
       <div id="check-now-results"></div>
     </div>
 
+    <!-- Features Card -->
     <div class="card">
-      <h2>What You'll Get</h2>
+      <div class="card-header">
+        <div class="card-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>What You'll Get</h2>
+      </div>
       <div class="features">
         <div class="feature">
           <div class="feature-icon">🔍</div>
