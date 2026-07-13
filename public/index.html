@@ -10,33 +10,29 @@
 
     /* ── Tokens ───────────────────────────────────────────── */
     :root {
-      --green-700: #006400;
-      --green-600: #007a00;
-      --green-500: #009400;
-      --green-400: #2ba52b;
-      --green-100: #e6f4e6;
-      --green-50:  #f0faf0;
-      --gray-50:   #f8f9fa;
-      --gray-100:  #f1f3f5;
-      --gray-200:  #e9ecef;
-      --gray-300:  #dee2e6;
-      --gray-400:  #ced4da;
-      --gray-500:  #adb5bd;
-      --gray-600:  #6c757d;
-      --gray-700:  #495057;
-      --gray-800:  #343a40;
-      --gray-900:  #212529;
-      --white:     #ffffff;
-      --shadow-card: 0 1px 8px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.04);
-      --shadow-stat: 0 1px 4px rgba(0,0,0,.05);
-      --radius:     6px;
-      --radius-lg:  10px;
-      --max-w:      480px;
+      --green-600: #16A34A;
+      --green-700: #15803D;
+      --green-hover: #15803D;
+      --bg-top: #F0F4F8;
+      --bg-bottom: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --card-radius: 12px;
+      --input-bg: #F8FAFC;
+      --input-border: #E2E8F0;
+      --input-focus: #16A34A;
+      --text-primary: #1E293B;
+      --text-secondary: #64748B;
+      --text-muted: #94A3B8;
+      --border-light: #E2E8F0;
+      --btn-radius: 8px;
+      --input-radius: 8px;
+      --max-w: 480px;
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif;
-      color: var(--gray-800);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -44,7 +40,7 @@
       justify-content: center;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      background: var(--gray-100);
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
       padding: 32px 16px;
     }
 
@@ -52,16 +48,11 @@
     .main-card {
       width: 100%;
       max-width: var(--max-w);
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-card);
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
       overflow: hidden;
-    }
-
-    /* ── Thin Green Top Strip ─────────────────────────────── */
-    .card-strip {
-      height: 5px;
-      background: linear-gradient(90deg, var(--green-700), var(--green-500), var(--green-700));
+      border-top: 3px solid var(--green-600);
     }
 
     /* ── Card Body ────────────────────────────────────────── */
@@ -69,66 +60,60 @@
       padding: 28px 32px 32px;
     }
 
-    /* ── Heading ──────────────────────────────────────────── */
-    .page-heading {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 6px;
+    /* ── Header Area ──────────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    .heading-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--green-50);
-      border: 2px solid var(--green-100);
-      border-radius: 50%;
-      display: flex;
+    .badge {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: var(--card-bg);
+      border: 2px solid var(--green-600);
+      border-radius: 50%;
+      margin-bottom: 12px;
     }
-    .heading-icon svg { width: 26px; height: 26px; }
+    .badge svg { width: 28px; height: 28px; }
 
-    .heading-text h1 {
-      font-size: 20px;
+    .page-header h1 {
+      font-size: 22px;
       font-weight: 700;
       color: var(--green-700);
       line-height: 1.2;
     }
 
-    .card-subtitle {
-      font-size: 13px;
-      color: var(--gray-500);
-      margin-bottom: 22px;
+    .page-header .subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 6px;
       line-height: 1.5;
-      padding-left: 62px;
     }
 
     /* ── Stats Row ────────────────────────────────────────── */
     .stats {
       display: flex;
       gap: 10px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .stat {
       flex: 1;
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-top: 3px solid var(--green-600);
-      border-radius: var(--radius);
-      padding: 14px 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: var(--card-radius);
+      padding: 16px 8px;
       text-align: center;
-      transition: transform .15s, box-shadow .15s;
+      box-shadow: var(--card-shadow);
+      transition: transform .15s;
     }
-    .stat:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-stat);
-    }
+    .stat:hover { transform: translateY(-1px); }
 
     .stat-number {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
       color: var(--green-700);
       line-height: 1.1;
@@ -136,7 +121,7 @@
 
     .stat-label {
       font-size: 10px;
-      color: var(--gray-500);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-top: 4px;
@@ -146,7 +131,7 @@
     /* ── Divider ──────────────────────────────────────────── */
     .divider {
       height: 1px;
-      background: var(--gray-200);
+      background: var(--border-light);
       margin: 0 0 22px;
     }
 
@@ -154,13 +139,13 @@
     .section-title {
       font-size: 15px;
       font-weight: 600;
-      color: var(--gray-900);
+      color: var(--text-primary);
       margin-bottom: 4px;
     }
 
     .section-desc {
       font-size: 13px;
-      color: var(--gray-500);
+      color: var(--text-secondary);
       margin-bottom: 14px;
       line-height: 1.5;
     }
@@ -172,17 +157,17 @@
       display: block;
       font-size: 12.5px;
       font-weight: 500;
-      color: var(--gray-700);
+      color: var(--text-primary);
       margin-bottom: 4px;
     }
 
     input[type="email"], select {
       width: 100%;
-      padding: 9px 11px;
-      background: var(--white);
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius);
-      color: var(--gray-900);
+      padding: 10px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--input-radius);
+      color: var(--text-primary);
       font-size: 14px;
       font-family: inherit;
       outline: none;
@@ -190,38 +175,35 @@
     }
 
     input[type="email"]:focus, select:focus {
-      border-color: var(--green-600);
-      box-shadow: 0 0 0 3px rgba(0,100,0,.08);
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(22,163,74,.1);
     }
 
-    input[type="email"]::placeholder { color: var(--gray-400); }
+    input[type="email"]::placeholder { color: var(--text-muted); }
 
     .optional-label {
       font-size: 11px;
-      color: var(--gray-400);
+      color: var(--text-muted);
       font-weight: 400;
     }
 
-    /* ── Button ───────────────────────────────────────────── */
+    /* ── Buttons ──────────────────────────────────────────── */
     .btn-primary {
       width: 100%;
       padding: 10px 20px;
       background: var(--green-600);
-      color: var(--white);
+      color: #FFFFFF;
       border: none;
-      border-radius: var(--radius);
+      border-radius: var(--btn-radius);
       font-size: 14px;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       transition: background .2s, transform .1s;
     }
-    .btn-primary:hover { background: var(--green-500); }
+    .btn-primary:hover { background: var(--green-hover); }
     .btn-primary:active { transform: scale(0.985); }
-    .btn-primary:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; }
-
-    /* ── Check Now ────────────────────────────────────────── */
-    .check-now-wrap { text-align: center; }
+    .btn-primary:disabled { background: var(--input-border); color: var(--text-muted); cursor: not-allowed; }
 
     .btn-check {
       display: inline-flex;
@@ -230,48 +212,51 @@
       gap: 8px;
       padding: 10px 26px;
       background: var(--green-600);
-      color: var(--white);
+      color: #FFFFFF;
       border: none;
-      border-radius: var(--radius);
+      border-radius: var(--btn-radius);
       font-size: 13.5px;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       transition: background .2s;
     }
-    .btn-check:hover { background: var(--green-500); }
-    .btn-check:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; }
+    .btn-check:hover { background: var(--green-hover); }
+    .btn-check:disabled { background: var(--input-border); color: var(--text-muted); cursor: not-allowed; }
 
     .spinner {
       display: inline-block;
       width: 14px;
       height: 14px;
-      border: 2px solid var(--white);
+      border: 2px solid #FFFFFF;
       border-top-color: transparent;
       border-radius: 50%;
       animation: spin .6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── Check Now ────────────────────────────────────────── */
+    .check-now-wrap { text-align: center; }
+
     .check-meta {
       font-size: 12px;
-      color: var(--gray-500);
+      color: var(--text-secondary);
       margin-top: 10px;
     }
     .check-meta .cached-badge {
       display: inline-block;
-      background: var(--gray-100);
-      color: var(--gray-600);
+      background: var(--bg-top);
+      color: var(--text-secondary);
       font-size: 10px;
       padding: 2px 6px;
       border-radius: 4px;
       margin-left: 4px;
       font-weight: 600;
-      border: 1px solid var(--gray-200);
+      border: 1px solid var(--border-light);
     }
     .check-meta .fresh-badge {
       display: inline-block;
-      background: var(--green-100);
+      background: #DCFCE7;
       color: var(--green-700);
       font-size: 10px;
       padding: 2px 6px;
@@ -281,11 +266,11 @@
     }
 
     .check-error {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      border-radius: var(--radius);
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: var(--input-radius);
       padding: 10px 12px;
-      color: #b91c1c;
+      color: #B91C1C;
       font-size: 13px;
       margin-top: 10px;
       display: none;
@@ -296,21 +281,19 @@
 
     /* ── Tender Items ─────────────────────────────────────── */
     .tender-item {
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
+      background: var(--bg-top);
+      border: 1px solid var(--border-light);
       border-left: 3px solid var(--green-600);
-      border-radius: var(--radius);
+      border-radius: var(--input-radius);
       padding: 12px 14px;
       margin-bottom: 8px;
       text-align: left;
-      transition: border-color .15s;
     }
-    .tender-item:hover { border-left-color: var(--green-400); }
 
     .tender-title {
       font-size: 13px;
       font-weight: 600;
-      color: var(--gray-900);
+      color: var(--text-primary);
       margin-bottom: 4px;
       line-height: 1.4;
     }
@@ -319,14 +302,14 @@
 
     .tender-detail {
       font-size: 11px;
-      color: var(--gray-500);
+      color: var(--text-secondary);
       line-height: 1.4;
     }
     .tender-detail span { margin-right: 8px; }
     .tender-detail .tender-source {
       display: inline-block;
-      background: var(--green-50);
-      border: 1px solid var(--green-100);
+      background: #DCFCE7;
+      border: 1px solid #BBF7D0;
       padding: 1px 5px;
       border-radius: 3px;
       font-size: 9px;
@@ -339,17 +322,17 @@
     .tender-empty {
       text-align: center;
       padding: 16px;
-      color: var(--gray-500);
+      color: var(--text-secondary);
       font-size: 13px;
     }
 
     /* ── Error ────────────────────────────────────────────── */
     .error-msg {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      border-radius: var(--radius);
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: var(--input-radius);
       padding: 10px 12px;
-      color: #b91c1c;
+      color: #B91C1C;
       font-size: 13px;
       margin-bottom: 14px;
       display: none;
@@ -364,23 +347,23 @@
     }
 
     .feature {
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
+      background: var(--bg-top);
+      border: 1px solid var(--border-light);
+      border-radius: var(--input-radius);
       padding: 14px 12px;
       transition: border-color .15s;
     }
-    .feature:hover { border-color: var(--green-400); }
+    .feature:hover { border-color: var(--green-600); }
 
     .feature-icon { font-size: 18px; margin-bottom: 4px; }
-    .feature-title { font-size: 12px; font-weight: 600; color: var(--gray-800); }
-    .feature-desc { font-size: 11px; color: var(--gray-500); margin-top: 2px; line-height: 1.4; }
+    .feature-title { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+    .feature-desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4; }
 
     /* ── Success View ─────────────────────────────────────── */
     .success { text-align: center; padding: 28px 0; }
     .success .icon { font-size: 40px; margin-bottom: 12px; }
     .success h2 { color: var(--green-700); margin-bottom: 6px; font-size: 18px; }
-    .success p { color: var(--gray-600); font-size: 13.5px; line-height: 1.7; }
+    .success p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; }
     .success a { color: var(--green-600); text-decoration: none; font-weight: 500; }
     .success a:hover { text-decoration: underline; }
 
@@ -388,17 +371,17 @@
     .unsub-card { text-align: center; }
     .unsub-card .icon { font-size: 40px; margin-bottom: 10px; }
     .unsub-card h2 { font-size: 17px; }
-    .unsub-card p { font-size: 13.5px; }
+    .unsub-card p { font-size: 13.5px; color: var(--text-secondary); }
 
     /* ── Footer ───────────────────────────────────────────── */
     .page-footer {
       margin-top: 16px;
       text-align: center;
       font-size: 11.5px;
-      color: var(--gray-500);
+      color: var(--text-muted);
     }
-    .page-footer a { color: var(--gray-600); text-decoration: none; }
-    .page-footer a:hover { color: var(--green-700); }
+    .page-footer a { color: var(--text-secondary); text-decoration: none; }
+    .page-footer a:hover { color: var(--green-600); }
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 520px) {
@@ -406,46 +389,28 @@
       .card-body { padding: 22px 20px 24px; }
       .stats { flex-direction: column; gap: 8px; }
       .features { grid-template-columns: 1fr; }
-      .card-subtitle { padding-left: 0; }
     }
   </style>
 </head>
 <body>
 
 <div class="main-card" id="app">
-  <!-- ─── Thin Green Accent Strip ─────────────────────────── -->
-  <div class="card-strip"></div>
-
-  <!-- ─── Card Body ───────────────────────────────────────── -->
   <div class="card-body" id="view-register">
-    <!-- Heading -->
-    <div class="page-heading">
-      <div class="heading-icon">
-        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="2" width="14" height="18" rx="2" fill="var(--green-600)"/>
-          <rect x="5" y="2" width="14" height="18" rx="2" fill="url(#hg)"/>
-          <line x1="8" y1="8" x2="16" y2="8" stroke="rgba(255,255,255,.85)" stroke-width="1.3" stroke-linecap="round"/>
-          <line x1="8" y1="12" x2="14" y2="12" stroke="rgba(255,255,255,.6)" stroke-width="1.3" stroke-linecap="round"/>
-          <line x1="8" y1="16" x2="12" y2="16" stroke="rgba(255,255,255,.4)" stroke-width="1.3" stroke-linecap="round"/>
-          <path d="M14 2 L18 6 L14 6 Z" fill="var(--green-700)" opacity=".4"/>
-          <circle cx="17" cy="17" r="4" fill="none" stroke="var(--green-600)" stroke-width="1.5"/>
-          <line x1="20" y1="20" x2="23" y2="23" stroke="var(--green-600)" stroke-width="1.5" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="hg" x1="5" y1="2" x2="19" y2="20" gradientUnits="userSpaceOnUse">
-              <stop stop-color="var(--green-500)"/>
-              <stop offset="1" stop-color="var(--green-700)"/>
-            </linearGradient>
-          </defs>
+    <!-- Header -->
+    <div class="page-header">
+      <div class="badge">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="3" width="14" height="17" rx="2" fill="#16A34A"/>
+          <line x1="8" y1="9" x2="16" y2="9" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity=".85"/>
+          <line x1="8" y1="13" x2="14" y2="13" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+          <line x1="8" y1="17" x2="12" y2="17" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity=".4"/>
+          <circle cx="18" cy="18" r="4.5" fill="none" stroke="#16A34A" stroke-width="1.8"/>
+          <line x1="21.5" y1="21.5" x2="25" y2="25" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="heading-text">
-        <h1>PITAS Tender Alerts</h1>
-      </div>
+      <h1>PITAS Tender Alerts</h1>
+      <p class="subtitle">Never miss an IT government tender from Pakistan's PPRA portals.<br>Daily email digest, powered by automation.</p>
     </div>
-    <p class="card-subtitle">
-      Never miss an IT government tender from Pakistan's PPRA portals.<br>
-      Daily email digest, powered by automation.
-    </p>
 
     <!-- Stats -->
     <div class="stats" id="stats">
@@ -554,12 +519,8 @@
     <div class="success">
       <div class="icon">📬</div>
       <h2>Check Your Email</h2>
-      <p>
-        We've sent a verification link to<br>
-        <strong id="registered-email"></strong>
-      </p>
-      <p style="margin-top:14px">
-        Click the link to activate your subscription.<br>
+      <p>We've sent a verification link to<br><strong id="registered-email"></strong></p>
+      <p style="margin-top:14px">Click the link to activate your subscription.<br>
         <a href="" onclick="showRegister(); return false;">← Back to registration</a>
       </p>
     </div>
@@ -571,18 +532,15 @@
       <div class="icon">📭</div>
       <h2>Unsubscribe from Tender Alerts</h2>
       <p>You'll stop receiving daily tender digests.</p>
-
       <div class="error-msg" id="unsub-error"></div>
-
       <form id="unsub-form" onsubmit="handleUnsub(event)" style="margin-top:16px">
         <div class="form-group">
           <input type="email" id="unsub-email" placeholder="Enter your email" required>
         </div>
         <button type="submit" class="btn-primary" id="unsub-btn">Unsubscribe</button>
       </form>
-
       <p style="margin-top:14px;font-size:12.5px">
-        Changed your mind? <a href="" style="color:var(--green-700)">← Back to registration</a>
+        Changed your mind? <a href="" style="color:var(--green-600)">← Back to registration</a>
       </p>
     </div>
   </div>
@@ -693,8 +651,8 @@
         <div style="padding:16px;text-align:center">
           <div style="font-size:32px;margin-bottom:10px">✅</div>
           <p style="color:var(--green-700);font-weight:600;font-size:14px">Unsubscribed successfully</p>
-          <p style="color:var(--gray-500);font-size:12.5px;margin-top:6px">You won't receive any more tender alerts.</p>
-          <p style="margin-top:12px"><a href="" style="color:var(--green-700);font-size:12.5px">← Re-register</a></p>
+          <p style="color:var(--text-secondary);font-size:12.5px;margin-top:6px">You won't receive any more tender alerts.</p>
+          <p style="margin-top:12px"><a href="" style="color:var(--green-600);font-size:12.5px">← Re-register</a></p>
         </div>`;
     } catch (err) {
       errDiv.textContent = err.message;
