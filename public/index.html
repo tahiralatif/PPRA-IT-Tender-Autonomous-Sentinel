@@ -5,176 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PITAS — Pakistan IT Tender Alerts</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ── Reset ────────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── Tokens ───────────────────────────────────────────── */
+    :root {
+      --green-700: #006400;
+      --green-600: #007a00;
+      --green-500: #009400;
+      --green-100: #e6f4e6;
+      --green-50:  #f0faf0;
+      --gray-50:   #f8f9fa;
+      --gray-100:  #f1f3f5;
+      --gray-200:  #e9ecef;
+      --gray-300:  #dee2e6;
+      --gray-400:  #ced4da;
+      --gray-500:  #adb5bd;
+      --gray-600:  #6c757d;
+      --gray-700:  #495057;
+      --gray-800:  #343a40;
+      --gray-900:  #212529;
+      --white:     #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.08);
+      --radius:    8px;
+      --radius-lg: 12px;
+      --max-w:     680px;
+    }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ── Layout ───────────────────────────────────────────── */
     .container {
-      max-width: 640px;
+      max-width: var(--max-w);
       width: 100%;
-      padding: 40px 20px;
+      padding: 48px 20px 32px;
     }
 
+    /* ── Header / Hero ────────────────────────────────────── */
     .hero {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
-    .flag { font-size: 48px; margin-bottom: 12px; }
+    .flag { font-size: 44px; margin-bottom: 10px; }
 
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
-      color: #f8fafc;
-      margin-bottom: 8px;
+      color: var(--green-700);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
     }
 
     .subtitle {
-      font-size: 15px;
-      color: #94a3b8;
-      line-height: 1.5;
+      font-size: 14.5px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      max-width: 440px;
+      margin: 0 auto;
     }
 
+    /* ── Stats ────────────────────────────────────────────── */
     .stats {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       justify-content: center;
-      margin: 24px 0;
+      margin: 28px 0 32px;
     }
 
     .stat {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 16px 24px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 18px 28px;
       text-align: center;
-      min-width: 120px;
+      min-width: 130px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s;
     }
+    .stat:hover { box-shadow: var(--shadow-md); }
 
     .stat-number {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 700;
-      color: #38bdf8;
+      color: var(--green-700);
+      line-height: 1.1;
     }
 
     .stat-label {
-      font-size: 12px;
-      color: #94a3b8;
+      font-size: 11.5px;
+      color: var(--gray-500);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
+      letter-spacing: 0.6px;
+      margin-top: 5px;
+      font-weight: 500;
     }
 
+    /* ── Cards ────────────────────────────────────────────── */
     .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
       padding: 32px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
     }
 
     .card h2 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
-      color: #f8fafc;
-      margin-bottom: 16px;
+      color: var(--gray-900);
+      margin-bottom: 6px;
     }
 
-    .card p {
-      font-size: 14px;
-      color: #94a3b8;
+    .card > p {
+      font-size: 13.5px;
+      color: var(--gray-600);
       margin-bottom: 20px;
       line-height: 1.6;
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+    /* ── Form ─────────────────────────────────────────────── */
+    .form-group { margin-bottom: 16px; }
 
     label {
       display: block;
       font-size: 13px;
       font-weight: 500;
-      color: #cbd5e1;
-      margin-bottom: 6px;
+      color: var(--gray-700);
+      margin-bottom: 5px;
     }
 
     input[type="email"], select {
       width: 100%;
-      padding: 12px 16px;
-      background: #0f172a;
-      border: 1px solid #475569;
-      border-radius: 10px;
-      color: #f8fafc;
-      font-size: 15px;
+      padding: 11px 14px;
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius);
+      color: var(--gray-900);
+      font-size: 14.5px;
+      font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color .2s, box-shadow .2s;
     }
 
     input[type="email"]:focus, select:focus {
-      border-color: #38bdf8;
+      border-color: var(--green-600);
+      box-shadow: 0 0 0 3px rgba(0,100,0,.1);
     }
 
-    input[type="email"]::placeholder {
-      color: #64748b;
-    }
+    input[type="email"]::placeholder { color: var(--gray-400); }
 
     .optional-label {
-      font-size: 11px;
-      color: #64748b;
+      font-size: 11.5px;
+      color: var(--gray-500);
       font-weight: 400;
     }
 
+    /* ── Buttons ──────────────────────────────────────────── */
     button {
       width: 100%;
-      padding: 14px;
-      background: #38bdf8;
-      color: #0f172a;
+      padding: 12px 20px;
+      background: var(--green-700);
+      color: var(--white);
       border: none;
-      border-radius: 10px;
-      font-size: 15px;
+      border-radius: var(--radius);
+      font-size: 14.5px;
       font-weight: 600;
+      font-family: inherit;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background .2s, transform .1s;
+      letter-spacing: 0.1px;
     }
 
-    button:hover { background: #7dd3fc; }
-    button:active { transform: scale(0.98); }
-    button:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; }
+    button:hover { background: var(--green-600); }
+    button:active { transform: scale(0.985); }
+    button:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; }
 
-    .success {
-      text-align: center;
-      padding: 40px 20px;
-    }
+    /* ── Success View ─────────────────────────────────────── */
+    .success { text-align: center; padding: 36px 20px; }
+    .success .icon { font-size: 44px; margin-bottom: 14px; }
+    .success h2 { color: var(--green-700); margin-bottom: 6px; font-size: 20px; }
+    .success p { color: var(--gray-600); font-size: 14px; line-height: 1.7; }
+    .success a { color: var(--green-600); text-decoration: none; font-weight: 500; }
+    .success a:hover { text-decoration: underline; }
 
-    .success .icon { font-size: 48px; margin-bottom: 16px; }
-    .success h2 { color: #4ade80; margin-bottom: 8px; }
-    .success p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
-    .success a { color: #38bdf8; text-decoration: none; }
-
+    /* ── Error ────────────────────────────────────────────── */
     .error-msg {
-      background: #450a0a;
-      border: 1px solid #7f1d1d;
-      border-radius: 10px;
-      padding: 12px 16px;
-      color: #fca5a5;
-      font-size: 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      color: #b91c1c;
+      font-size: 13.5px;
       margin-bottom: 16px;
       display: none;
+      line-height: 1.5;
     }
 
-    /* Check Now section */
+    /* ── Check Now ────────────────────────────────────────── */
     .check-now-card { text-align: center; }
     .check-now-card h2 { text-align: left; }
-    .check-now-card p { text-align: left; }
+    .check-now-card > p { text-align: left; }
 
     #check-now-btn {
       display: inline-flex;
@@ -182,117 +226,119 @@
       justify-content: center;
       gap: 8px;
       width: auto;
-      padding: 14px 32px;
-      background: #f59e0b;
-      color: #0f172a;
-      font-weight: 700;
+      padding: 12px 28px;
+      background: var(--green-700);
+      color: var(--white);
+      font-weight: 600;
     }
-    #check-now-btn:hover { background: #fbbf24; }
-    #check-now-btn:disabled { background: #475569; color: #94a3b8; }
+    #check-now-btn:hover { background: var(--green-600); }
+    #check-now-btn:disabled { background: var(--gray-300); color: var(--gray-500); }
 
     .spinner {
       display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 3px solid #0f172a;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid var(--white);
       border-top-color: transparent;
       border-radius: 50%;
-      animation: spin 0.6s linear infinite;
+      animation: spin .6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .check-now-meta {
-      font-size: 12px;
-      color: #64748b;
-      margin-top: 12px;
+      font-size: 12.5px;
+      color: var(--gray-500);
+      margin-top: 14px;
     }
     .check-now-meta .cached-badge {
       display: inline-block;
-      background: #164e63;
-      color: #67e8f9;
+      background: var(--gray-100);
+      color: var(--gray-600);
       font-size: 11px;
       padding: 2px 8px;
-      border-radius: 6px;
+      border-radius: 4px;
       margin-left: 6px;
       font-weight: 600;
+      border: 1px solid var(--gray-200);
     }
     .check-now-meta .fresh-badge {
       display: inline-block;
-      background: #14532d;
-      color: #4ade80;
+      background: var(--green-100);
+      color: var(--green-700);
       font-size: 11px;
       padding: 2px 8px;
-      border-radius: 6px;
+      border-radius: 4px;
       margin-left: 6px;
       font-weight: 600;
     }
 
     .check-now-error {
-      background: #450a0a;
-      border: 1px solid #7f1d1d;
-      border-radius: 10px;
-      padding: 12px 16px;
-      color: #fca5a5;
-      font-size: 14px;
-      margin-top: 12px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      color: #b91c1c;
+      font-size: 13.5px;
+      margin-top: 14px;
       display: none;
       text-align: left;
     }
 
-    #check-now-results {
-      display: none;
-      margin-top: 20px;
-    }
+    #check-now-results { display: none; margin-top: 20px; }
 
+    /* ── Tender Items ─────────────────────────────────────── */
     .tender-item {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px 18px;
       margin-bottom: 10px;
-      transition: border-color 0.2s;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .tender-item:hover { border-color: #38bdf8; }
+    .tender-item:hover {
+      border-color: var(--green-500);
+      box-shadow: var(--shadow-sm);
+    }
 
     .tender-title {
       font-size: 14px;
       font-weight: 600;
-      color: #f8fafc;
-      margin-bottom: 6px;
-      line-height: 1.4;
+      color: var(--gray-900);
+      margin-bottom: 5px;
+      line-height: 1.45;
     }
     .tender-title a {
-      color: #38bdf8;
+      color: var(--green-700);
       text-decoration: none;
     }
     .tender-title a:hover { text-decoration: underline; }
 
     .tender-detail {
       font-size: 12px;
-      color: #94a3b8;
+      color: var(--gray-500);
       line-height: 1.5;
     }
-    .tender-detail span {
-      margin-right: 12px;
-    }
+    .tender-detail span { margin-right: 12px; }
     .tender-detail .tender-source {
       display: inline-block;
-      background: #1e293b;
-      border: 1px solid #475569;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
       padding: 1px 6px;
       border-radius: 4px;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      color: var(--gray-600);
     }
 
     .tender-empty {
       text-align: center;
       padding: 24px;
-      color: #64748b;
+      color: var(--gray-500);
       font-size: 14px;
     }
 
+    /* ── Features Grid ────────────────────────────────────── */
     .features {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -301,33 +347,47 @@
     }
 
     .feature {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: border-color .2s;
     }
+    .feature:hover { border-color: var(--green-500); }
 
     .feature-icon { font-size: 20px; margin-bottom: 6px; }
-    .feature-title { font-size: 13px; font-weight: 600; color: #e2e8f0; }
-    .feature-desc { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .feature-title { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+    .feature-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; line-height: 1.5; }
 
+    /* ── Footer ───────────────────────────────────────────── */
     footer {
       margin-top: 40px;
       padding: 24px 20px;
       text-align: center;
       font-size: 12px;
-      color: #475569;
-      border-top: 1px solid #1e293b;
+      color: var(--gray-500);
+      border-top: 1px solid var(--gray-200);
       width: 100%;
-      max-width: 640px;
+      max-width: var(--max-w);
     }
+    footer a { color: var(--gray-500); text-decoration: none; }
+    footer a:hover { color: var(--green-700); }
 
-    footer a { color: #64748b; text-decoration: none; }
-    footer a:hover { color: #94a3b8; }
-
-    /* Unsubscribe page */
+    /* ── Unsubscribe ──────────────────────────────────────── */
     .unsub-card { text-align: center; }
-    .unsub-card .icon { font-size: 48px; margin-bottom: 12px; }
+    .unsub-card .icon { font-size: 44px; margin-bottom: 12px; }
+    .unsub-card h2 { font-size: 18px; }
+    .unsub-card p { font-size: 14px; }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 520px) {
+      .container { padding: 32px 16px 24px; }
+      .stats { flex-direction: column; align-items: center; }
+      .stat { min-width: 100%; }
+      .features { grid-template-columns: 1fr; }
+      .card { padding: 24px 20px; }
+      h1 { font-size: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -340,7 +400,7 @@
       <h1>PITAS Tender Alerts</h1>
       <p class="subtitle">
         Never miss an IT government tender from Pakistan's PPRA portals.
-        <br>Daily email digest, powered by automation.
+        Daily email digest, powered by automation.
       </p>
     </div>
 
@@ -481,7 +541,7 @@
       </form>
 
       <p style="margin-top:16px;font-size:13px">
-        Changed your mind? <a href="" style="color:#38bdf8">← Back to registration</a>
+        Changed your mind? <a href="" style="color:var(--green-700)">← Back to registration</a>
       </p>
     </div>
   </div>
@@ -604,12 +664,12 @@
       document.getElementById('unsub-form').innerHTML = `
         <div style="padding:20px;text-align:center">
           <div style="font-size:36px;margin-bottom:12px">✅</div>
-          <p style="color:#4ade80;font-weight:600">Unsubscribed successfully</p>
-          <p style="color:#94a3b8;font-size:13px;margin-top:8px">
+          <p style="color:var(--green-700);font-weight:600">Unsubscribed successfully</p>
+          <p style="color:var(--gray-500);font-size:13px;margin-top:8px">
             You won't receive any more tender alerts.
           </p>
           <p style="margin-top:16px">
-            <a href="" style="color:#38bdf8;font-size:13px">← Re-register</a>
+            <a href="" style="color:var(--green-700);font-size:13px">← Re-register</a>
           </p>
         </div>
       `;
