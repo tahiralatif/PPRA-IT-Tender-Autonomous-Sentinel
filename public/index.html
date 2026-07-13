@@ -10,6 +10,7 @@
 
     /* ── Tokens ───────────────────────────────────────────── */
     :root {
+      --green-900: #003300;
       --green-800: #004d00;
       --green-700: #006400;
       --green-600: #007a00;
@@ -28,14 +29,12 @@
       --gray-800:  #343a40;
       --gray-900:  #212529;
       --white:     #ffffff;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-      --shadow-md: 0 4px 14px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
-      --shadow-lg: 0 12px 36px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.05);
-      --shadow-card: 0 2px 8px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+      --shadow-card: 0 4px 24px rgba(0,0,0,.12), 0 1px 4px rgba(0,0,0,.06);
+      --shadow-stat: 0 1px 4px rgba(0,0,0,.06);
       --radius:    8px;
       --radius-lg: 12px;
-      --radius-xl: 16px;
-      --max-w:     700px;
+      --radius-xl: 14px;
+      --max-w:     480px;
     }
 
     body {
@@ -45,197 +44,165 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      background: var(--gray-100);
-      background-image:
-        radial-gradient(circle at 20% 50%, rgba(0,100,0,.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0,100,0,.02) 0%, transparent 40%);
+      background: linear-gradient(160deg, var(--green-700) 0%, var(--green-600) 50%, var(--green-500) 100%);
+      padding: 32px 16px;
     }
 
-    /* ── Hero Banner ──────────────────────────────────────── */
-    .hero-banner {
+    /* ── Main Card ────────────────────────────────────────── */
+    .main-card {
       width: 100%;
-      background: linear-gradient(135deg, var(--green-700) 0%, var(--green-600) 40%, var(--green-500) 100%);
-      padding: 48px 20px 44px;
+      max-width: var(--max-w);
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Card Header Banner ───────────────────────────────── */
+    .card-banner {
+      background: linear-gradient(135deg, var(--green-800) 0%, var(--green-700) 100%);
+      padding: 28px 32px 40px;
       text-align: center;
       position: relative;
-      overflow: hidden;
     }
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(circle at 15% 80%, rgba(255,255,255,.07) 0%, transparent 40%),
-        radial-gradient(circle at 85% 20%, rgba(255,255,255,.05) 0%, transparent 35%);
-      pointer-events: none;
-    }
-    .hero-banner::after {
+    .card-banner::after {
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--green-800), var(--green-400), var(--green-800));
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-900), var(--green-400), var(--green-900));
     }
 
-    /* ── Badge / Logo ─────────────────────────────────────── */
-    .badge-wrap {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    .badge {
-      width: 72px;
-      height: 72px;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
-    }
-
-    h1 {
-      font-size: 28px;
+    .card-banner h1 {
+      font-size: 22px;
       font-weight: 700;
       color: var(--white);
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
-      text-shadow: 0 1px 3px rgba(0,0,0,.15);
-      position: relative;
+      letter-spacing: -0.2px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.15);
     }
 
-    .subtitle {
-      font-size: 14.5px;
-      color: rgba(255,255,255,.82);
-      line-height: 1.6;
-      max-width: 460px;
-      margin: 0 auto;
+    /* ── Circular Badge ───────────────────────────────────── */
+    .badge-container {
       position: relative;
+      display: flex;
+      justify-content: center;
+      margin-top: -44px;
+      margin-bottom: 20px;
+      z-index: 2;
     }
 
-    /* ── Container ────────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
-      width: 100%;
-      padding: 0 20px 32px;
-      margin-top: -8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── Stats Section ────────────────────────────────────── */
-    .stats-section {
+    .badge-circle {
+      width: 88px;
+      height: 88px;
       background: var(--white);
-      border-radius: var(--radius-xl);
-      padding: 28px 24px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-card);
-      border: 1px solid rgba(0,0,0,.04);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,.12), 0 0 0 4px var(--white);
     }
 
+    .badge-circle svg {
+      width: 52px;
+      height: 52px;
+    }
+
+    /* ── Card Body ────────────────────────────────────────── */
+    .card-body {
+      padding: 4px 32px 32px;
+    }
+
+    .card-subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── Stats Row ────────────────────────────────────────── */
     .stats {
       display: flex;
-      gap: 16px;
-      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
     }
 
     .stat {
+      flex: 1;
       background: var(--gray-50);
       border: 1px solid var(--gray-200);
       border-top: 3px solid var(--green-600);
-      border-radius: var(--radius-lg);
-      padding: 20px 28px;
+      border-radius: var(--radius);
+      padding: 14px 8px;
       text-align: center;
-      min-width: 140px;
-      flex: 1;
-      transition: transform .2s, box-shadow .2s;
-      position: relative;
+      transition: transform .15s, box-shadow .15s;
     }
     .stat:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-stat);
     }
 
     .stat-number {
-      font-size: 32px;
+      font-size: 26px;
       font-weight: 700;
       color: var(--green-700);
       line-height: 1.1;
     }
 
     .stat-label {
-      font-size: 11.5px;
+      font-size: 10px;
       color: var(--gray-500);
       text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-top: 6px;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
       font-weight: 600;
     }
 
-    /* ── Cards ────────────────────────────────────────────── */
-    .card {
-      background: var(--white);
-      border: 1px solid rgba(0,0,0,.05);
-      border-radius: var(--radius-xl);
-      padding: 32px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-card);
-      transition: box-shadow .2s;
-    }
-    .card:hover { box-shadow: var(--shadow-lg); }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
+    /* ── Divider ──────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 0 0 24px;
     }
 
-    .card-header-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--green-100);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .card-header-icon svg { width: 18px; height: 18px; }
-
-    .card h2 {
-      font-size: 17px;
+    /* ── Section Titles ───────────────────────────────────── */
+    .section-title {
+      font-size: 15px;
       font-weight: 600;
       color: var(--gray-900);
+      margin-bottom: 4px;
     }
 
-    .card > p {
-      font-size: 13.5px;
-      color: var(--gray-600);
-      margin-bottom: 20px;
-      margin-top: 4px;
-      line-height: 1.6;
+    .section-desc {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
     /* ── Form ─────────────────────────────────────────────── */
-    .form-group { margin-bottom: 16px; }
+    .form-group { margin-bottom: 14px; }
 
     label {
       display: block;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 500;
       color: var(--gray-700);
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     input[type="email"], select {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 12px;
       background: var(--white);
       border: 1px solid var(--gray-300);
       border-radius: var(--radius);
       color: var(--gray-900);
-      font-size: 14.5px;
+      font-size: 14px;
       font-family: inherit;
       outline: none;
       transition: border-color .2s, box-shadow .2s;
@@ -243,141 +210,111 @@
 
     input[type="email"]:focus, select:focus {
       border-color: var(--green-600);
-      box-shadow: 0 0 0 3px rgba(0,100,0,.1);
+      box-shadow: 0 0 0 3px rgba(0,100,0,.08);
     }
 
     input[type="email"]::placeholder { color: var(--gray-400); }
 
     .optional-label {
-      font-size: 11.5px;
-      color: var(--gray-500);
+      font-size: 11px;
+      color: var(--gray-400);
       font-weight: 400;
     }
 
-    /* ── Buttons ──────────────────────────────────────────── */
-    button {
+    /* ── Button ───────────────────────────────────────────── */
+    .btn-primary {
       width: 100%;
-      padding: 13px 20px;
-      background: linear-gradient(135deg, var(--green-700), var(--green-600));
+      padding: 12px 20px;
+      background: var(--green-700);
       color: var(--white);
       border: none;
       border-radius: var(--radius);
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       transition: background .2s, transform .1s, box-shadow .2s;
       letter-spacing: 0.1px;
-      box-shadow: 0 2px 8px rgba(0,100,0,.2);
+      box-shadow: 0 2px 6px rgba(0,100,0,.2);
     }
-
-    button:hover {
-      background: linear-gradient(135deg, var(--green-600), var(--green-500));
-      box-shadow: 0 4px 14px rgba(0,100,0,.25);
-    }
-    button:active { transform: scale(0.985); }
-    button:disabled {
-      background: var(--gray-300);
-      color: var(--gray-500);
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    /* ── Success View ─────────────────────────────────────── */
-    .success { text-align: center; padding: 36px 20px; }
-    .success .icon { font-size: 44px; margin-bottom: 14px; }
-    .success h2 { color: var(--green-700); margin-bottom: 6px; font-size: 20px; }
-    .success p { color: var(--gray-600); font-size: 14px; line-height: 1.7; }
-    .success a { color: var(--green-600); text-decoration: none; font-weight: 500; }
-    .success a:hover { text-decoration: underline; }
-
-    /* ── Error ────────────────────────────────────────────── */
-    .error-msg {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      border-radius: var(--radius);
-      padding: 11px 14px;
-      color: #b91c1c;
-      font-size: 13.5px;
-      margin-bottom: 16px;
-      display: none;
-      line-height: 1.5;
-    }
+    .btn-primary:hover { background: var(--green-600); box-shadow: 0 4px 12px rgba(0,100,0,.25); }
+    .btn-primary:active { transform: scale(0.985); }
+    .btn-primary:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; box-shadow: none; }
 
     /* ── Check Now ────────────────────────────────────────── */
-    .check-now-card { text-align: center; }
-    .check-now-card .card-header { justify-content: flex-start; }
-    .check-now-card > p { text-align: left; }
+    .check-now-wrap { text-align: center; }
 
-    #check-now-btn {
+    .btn-check {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      width: auto;
-      padding: 13px 32px;
-      background: linear-gradient(135deg, var(--green-700), var(--green-600));
+      padding: 11px 28px;
+      background: var(--green-700);
       color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-size: 13.5px;
       font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,100,0,.2);
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s, box-shadow .2s;
+      box-shadow: 0 2px 6px rgba(0,100,0,.2);
     }
-    #check-now-btn:hover {
-      background: linear-gradient(135deg, var(--green-600), var(--green-500));
-      box-shadow: 0 4px 14px rgba(0,100,0,.25);
-    }
-    #check-now-btn:disabled { background: var(--gray-300); color: var(--gray-500); box-shadow: none; }
+    .btn-check:hover { background: var(--green-600); box-shadow: 0 4px 12px rgba(0,100,0,.25); }
+    .btn-check:disabled { background: var(--gray-300); color: var(--gray-500); cursor: not-allowed; box-shadow: none; }
 
     .spinner {
       display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2.5px solid var(--white);
+      width: 15px;
+      height: 15px;
+      border: 2px solid var(--white);
       border-top-color: transparent;
       border-radius: 50%;
       animation: spin .6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .check-now-meta {
-      font-size: 12.5px;
+    .check-meta {
+      font-size: 12px;
       color: var(--gray-500);
-      margin-top: 14px;
+      margin-top: 10px;
     }
-    .check-now-meta .cached-badge {
+    .check-meta .cached-badge {
       display: inline-block;
       background: var(--gray-100);
       color: var(--gray-600);
-      font-size: 11px;
-      padding: 2px 8px;
+      font-size: 10px;
+      padding: 2px 6px;
       border-radius: 4px;
-      margin-left: 6px;
+      margin-left: 4px;
       font-weight: 600;
       border: 1px solid var(--gray-200);
     }
-    .check-now-meta .fresh-badge {
+    .check-meta .fresh-badge {
       display: inline-block;
       background: var(--green-100);
       color: var(--green-700);
-      font-size: 11px;
-      padding: 2px 8px;
+      font-size: 10px;
+      padding: 2px 6px;
       border-radius: 4px;
-      margin-left: 6px;
+      margin-left: 4px;
       font-weight: 600;
     }
 
-    .check-now-error {
+    .check-error {
       background: #fef2f2;
       border: 1px solid #fecaca;
       border-radius: var(--radius);
-      padding: 11px 14px;
+      padding: 10px 12px;
       color: #b91c1c;
-      font-size: 13.5px;
-      margin-top: 14px;
+      font-size: 13px;
+      margin-top: 10px;
       display: none;
       text-align: left;
     }
 
-    #check-now-results { display: none; margin-top: 20px; }
+    #check-results { display: none; margin-top: 14px; }
 
     /* ── Tender Items ─────────────────────────────────────── */
     .tender-item {
@@ -385,332 +322,309 @@
       border: 1px solid var(--gray-200);
       border-left: 3px solid var(--green-600);
       border-radius: var(--radius);
-      padding: 16px 18px;
-      margin-bottom: 10px;
-      transition: border-color .2s, box-shadow .2s, transform .2s;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      text-align: left;
+      transition: border-color .15s;
     }
-    .tender-item:hover {
-      border-color: var(--green-500);
-      border-left-color: var(--green-500);
-      box-shadow: var(--shadow-sm);
-      transform: translateX(2px);
-    }
+    .tender-item:hover { border-left-color: var(--green-400); }
 
     .tender-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--gray-900);
-      margin-bottom: 5px;
-      line-height: 1.45;
+      margin-bottom: 4px;
+      line-height: 1.4;
     }
-    .tender-title a {
-      color: var(--green-700);
-      text-decoration: none;
-    }
+    .tender-title a { color: var(--green-700); text-decoration: none; }
     .tender-title a:hover { text-decoration: underline; }
 
     .tender-detail {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--gray-500);
-      line-height: 1.5;
+      line-height: 1.4;
     }
-    .tender-detail span { margin-right: 12px; }
+    .tender-detail span { margin-right: 8px; }
     .tender-detail .tender-source {
       display: inline-block;
       background: var(--green-50);
       border: 1px solid var(--green-100);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       color: var(--green-700);
       font-weight: 600;
     }
 
     .tender-empty {
       text-align: center;
-      padding: 24px;
+      padding: 16px;
       color: var(--gray-500);
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    /* ── Features Grid ────────────────────────────────────── */
+    /* ── Error ────────────────────────────────────────────── */
+    .error-msg {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      color: #b91c1c;
+      font-size: 13px;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    /* ── Features ─────────────────────────────────────────── */
     .features {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 16px;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     .feature {
       background: var(--gray-50);
       border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      padding: 18px 16px;
-      transition: border-color .2s, box-shadow .2s, transform .2s;
+      border-radius: var(--radius);
+      padding: 14px 12px;
+      transition: border-color .15s;
     }
-    .feature:hover {
-      border-color: var(--green-400);
-      box-shadow: var(--shadow-sm);
-      transform: translateY(-1px);
-    }
+    .feature:hover { border-color: var(--green-400); }
 
-    .feature-icon { font-size: 22px; margin-bottom: 8px; }
-    .feature-title { font-size: 13px; font-weight: 600; color: var(--gray-800); }
-    .feature-desc { font-size: 12px; color: var(--gray-500); margin-top: 3px; line-height: 1.5; }
+    .feature-icon { font-size: 18px; margin-bottom: 4px; }
+    .feature-title { font-size: 12px; font-weight: 600; color: var(--gray-800); }
+    .feature-desc { font-size: 11px; color: var(--gray-500); margin-top: 2px; line-height: 1.4; }
 
-    /* ── Footer ───────────────────────────────────────────── */
-    footer {
-      margin-top: 20px;
-      padding: 28px 20px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--gray-500);
-      border-top: 1px solid var(--gray-200);
-      width: 100%;
-      max-width: var(--max-w);
-      background: var(--white);
-    }
-    footer a { color: var(--gray-500); text-decoration: none; }
-    footer a:hover { color: var(--green-700); }
+    /* ── Success View ─────────────────────────────────────── */
+    .success { text-align: center; padding: 28px 0; }
+    .success .icon { font-size: 40px; margin-bottom: 12px; }
+    .success h2 { color: var(--green-700); margin-bottom: 6px; font-size: 18px; }
+    .success p { color: var(--gray-600); font-size: 13.5px; line-height: 1.7; }
+    .success a { color: var(--green-600); text-decoration: none; font-weight: 500; }
+    .success a:hover { text-decoration: underline; }
 
     /* ── Unsubscribe ──────────────────────────────────────── */
     .unsub-card { text-align: center; }
-    .unsub-card .icon { font-size: 44px; margin-bottom: 12px; }
-    .unsub-card h2 { font-size: 18px; }
-    .unsub-card p { font-size: 14px; }
+    .unsub-card .icon { font-size: 40px; margin-bottom: 10px; }
+    .unsub-card h2 { font-size: 17px; }
+    .unsub-card p { font-size: 13.5px; }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .page-footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11.5px;
+      color: rgba(255,255,255,.6);
+    }
+    .page-footer a { color: rgba(255,255,255,.7); text-decoration: none; }
+    .page-footer a:hover { color: var(--white); }
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 520px) {
-      .hero-banner { padding: 36px 16px 32px; }
-      .container { padding: 0 16px 24px; }
-      .stats { flex-direction: column; align-items: center; }
-      .stat { min-width: 100%; }
+      body { padding: 16px 12px; }
+      .card-banner { padding: 22px 20px 36px; }
+      .card-body { padding: 4px 20px 24px; }
+      .stats { flex-direction: column; gap: 8px; }
       .features { grid-template-columns: 1fr; }
-      .card { padding: 24px 20px; }
-      h1 { font-size: 23px; }
-      .badge { width: 60px; height: 60px; }
+      .badge-circle { width: 76px; height: 76px; }
+      .badge-circle svg { width: 44px; height: 44px; }
+      .card-banner h1 { font-size: 19px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ─── Hero Banner ──────────────────────────────────────── -->
-<div class="hero-banner">
-  <div class="badge-wrap">
-    <!-- Custom PITAS badge: shield + document + green star accent -->
-    <svg class="badge" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Shield shape -->
-      <path d="M36 4 L62 16 L62 36 C62 52 50 64 36 68 C22 64 10 52 10 36 L10 16 Z"
-            fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-      <!-- Inner shield -->
-      <path d="M36 9 L57 19 L57 36 C57 50 47 60 36 63 C25 60 15 50 15 36 L15 19 Z"
-            fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
-      <!-- Document icon -->
-      <rect x="25" y="22" width="22" height="28" rx="2" fill="rgba(255,255,255,.9)" stroke="rgba(0,80,0,.3)" stroke-width="1"/>
-      <line x1="29" y1="30" x2="43" y2="30" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="29" y1="35" x2="43" y2="35" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="29" y1="40" x2="38" y2="40" stroke="#006400" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Green star accent (Pakistan flag element) -->
-      <polygon points="36,12 37.5,16.5 42,16.5 38.3,19.2 39.8,23.5 36,20.8 32.2,23.5 33.7,19.2 30,16.5 34.5,16.5"
-               fill="#009400" stroke="rgba(255,255,255,.4)" stroke-width=".5"/>
-      <!-- Corner accents -->
-      <circle cx="36" cy="66" r="2" fill="rgba(255,255,255,.3)"/>
-    </svg>
+<div class="main-card" id="app">
+  <!-- ─── Card Banner ──────────────────────────────────────── -->
+  <div class="card-banner">
+    <h1>PITAS Tender Alerts</h1>
   </div>
-  <h1>PITAS Tender Alerts</h1>
-  <p class="subtitle">
-    Never miss an IT government tender from Pakistan's PPRA portals.
-    Daily email digest, powered by automation.
-  </p>
-</div>
 
-<!-- ─── Main Content ─────────────────────────────────────── -->
-<div class="container" id="app">
-  <!-- Registration View -->
-  <div id="view-register">
+  <!-- ─── Circular Badge ───────────────────────────────────── -->
+  <div class="badge-container">
+    <div class="badge-circle">
+      <!-- Custom PITAS badge: document + magnifier + green star -->
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Document -->
+        <rect x="12" y="6" width="22" height="28" rx="2.5" fill="var(--green-700)" stroke="var(--green-800)" stroke-width="1"/>
+        <rect x="12" y="6" width="22" height="28" rx="2.5" fill="url(#doc-grad)"/>
+        <!-- Text lines on document -->
+        <line x1="16" y1="15" x2="30" y2="15" stroke="rgba(255,255,255,.85)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="20" x2="28" y2="20" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="25" x2="25" y2="25" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Folded corner -->
+        <path d="M28 6 L34 12 L28 12 Z" fill="var(--green-800)" opacity=".4"/>
+        <!-- Magnifying glass -->
+        <circle cx="34" cy="32" r="7" fill="none" stroke="var(--green-700)" stroke-width="2.5"/>
+        <line x1="39" y1="37" x2="44" y2="42" stroke="var(--green-700)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Green star (Pakistan flag element) -->
+        <polygon points="10,38 11.2,41.2 14.5,41.2 11.8,43.2 13,46.2 10,44.4 7,46.2 8.2,43.2 5.5,41.2 8.8,41.2"
+                 fill="var(--green-600)"/>
+        <defs>
+          <linearGradient id="doc-grad" x1="12" y1="6" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+            <stop stop-color="var(--green-600)"/>
+            <stop offset="1" stop-color="var(--green-700)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
 
-    <!-- Stats Section -->
-    <div class="stats-section">
-      <div class="stats" id="stats">
-        <div class="stat">
-          <div class="stat-number" id="stat-tenders">—</div>
-          <div class="stat-label">IT Tenders Found</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number" id="stat-open">—</div>
-          <div class="stat-label">Currently Open</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number" id="stat-users">—</div>
-          <div class="stat-label">Subscribers</div>
-        </div>
+  <!-- ─── Registration View ────────────────────────────────── -->
+  <div class="card-body" id="view-register">
+    <p class="card-subtitle">
+      Never miss an IT government tender from Pakistan's PPRA portals.<br>
+      Daily email digest, powered by automation.
+    </p>
+
+    <!-- Stats -->
+    <div class="stats" id="stats">
+      <div class="stat">
+        <div class="stat-number" id="stat-tenders">—</div>
+        <div class="stat-label">Tenders Found</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="stat-open">—</div>
+        <div class="stat-label">Currently Open</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="stat-users">—</div>
+        <div class="stat-label">Subscribers</div>
       </div>
     </div>
 
-    <!-- Registration Card -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </div>
-        <h2>Get Daily IT Tender Alerts</h2>
+    <div class="divider"></div>
+
+    <!-- Registration Form -->
+    <div class="section-title">Get Daily IT Tender Alerts</div>
+    <div class="section-desc">Register your email to receive a daily digest of IT-relevant government tenders from EPMS and EPADS.</div>
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <form id="register-form" onsubmit="handleRegister(event)">
+      <div style="position:absolute;left:-9999px" aria-hidden="true">
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
       </div>
-      <p>Register your email to receive a daily digest of IT-relevant government tenders from EPMS and EPADS.</p>
-
-      <div class="error-msg" id="error-msg"></div>
-
-      <form id="register-form" onsubmit="handleRegister(event)">
-        <!-- Honeypot: hidden from humans, bots will fill it -->
-        <div style="position:absolute;left:-9999px" aria-hidden="true">
-          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="you@company.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="province">Province <span class="optional-label">(optional)</span></label>
-          <select id="province" name="province">
-            <option value="">All provinces</option>
-            <option value="Punjab">Punjab</option>
-            <option value="Sindh">Sindh</option>
-            <option value="KPK">Khyber Pakhtunkhwa</option>
-            <option value="Balochistan">Balochistan</option>
-            <option value="Federal">Federal / Islamabad</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="category">Category <span class="optional-label">(optional)</span></label>
-          <select id="category" name="category">
-            <option value="">All categories</option>
-            <option value="Software">Software</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Networking">Networking</option>
-            <option value="Cloud">Cloud / Infrastructure</option>
-            <option value="Security">Cybersecurity</option>
-            <option value="Consulting">IT Consulting</option>
-          </select>
-        </div>
-
-        <button type="submit" id="submit-btn">Subscribe to Alerts</button>
-      </form>
-    </div>
-
-    <!-- Check Now Card -->
-    <div class="card check-now-card" id="check-now-card">
-      <div class="card-header">
-        <div class="card-header-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </div>
-        <h2>Check Now</h2>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@company.com" required>
       </div>
-      <p>Run an on-demand scan of EPMS and EPADS portals for the latest IT tenders. This may take up to 30-60 seconds while we scrape and classify.</p>
+      <div class="form-group">
+        <label for="province">Province <span class="optional-label">(optional)</span></label>
+        <select id="province" name="province">
+          <option value="">All provinces</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Sindh">Sindh</option>
+          <option value="KPK">Khyber Pakhtunkhwa</option>
+          <option value="Balochistan">Balochistan</option>
+          <option value="Federal">Federal / Islamabad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="category">Category <span class="optional-label">(optional)</span></label>
+        <select id="category" name="category">
+          <option value="">All categories</option>
+          <option value="Software">Software</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Networking">Networking</option>
+          <option value="Cloud">Cloud / Infrastructure</option>
+          <option value="Security">Cybersecurity</option>
+          <option value="Consulting">IT Consulting</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary" id="submit-btn">Subscribe to Alerts</button>
+    </form>
 
-      <button id="check-now-btn" onclick="handleCheckNow()">
+    <div class="divider" style="margin-top:24px"></div>
+
+    <!-- Check Now -->
+    <div class="section-title">⚡ Check Now</div>
+    <div class="section-desc">Run an on-demand scan of EPMS and EPADS portals for the latest IT tenders.</div>
+
+    <div class="check-now-wrap">
+      <button class="btn-check" id="check-now-btn" onclick="handleCheckNow()">
         <span id="check-now-btn-text">Check Now</span>
         <div class="spinner" id="check-now-spinner" style="display:none"></div>
       </button>
-
-      <div class="check-now-meta" id="check-now-meta"></div>
-      <div class="check-now-error" id="check-now-error"></div>
-
-      <div id="check-now-results"></div>
+      <div class="check-meta" id="check-now-meta"></div>
+      <div class="check-error" id="check-now-error"></div>
+      <div id="check-results"></div>
     </div>
 
-    <!-- Features Card -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#006400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </div>
-        <h2>What You'll Get</h2>
+    <div class="divider" style="margin-top:24px"></div>
+
+    <!-- Features -->
+    <div class="section-title">What You'll Get</div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Auto-Filtered</div>
+        <div class="feature-desc">AI + keyword classification catches IT tenders</div>
       </div>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">🔍</div>
-          <div class="feature-title">Auto-Filtered</div>
-          <div class="feature-desc">AI + keyword classification catches IT tenders</div>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔄</div>
-          <div class="feature-title">Deduplicated</div>
-          <div class="feature-desc">Same tender from multiple portals shown once</div>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⏰</div>
-          <div class="feature-title">Update Alerts</div>
-          <div class="feature-desc">Notified when deadlines change or addenda posted</div>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">✉️</div>
-          <div class="feature-title">Daily Digest</div>
-          <div class="feature-desc">One email per day, only when new tenders exist</div>
-        </div>
+      <div class="feature">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-title">Deduplicated</div>
+        <div class="feature-desc">Same tender from multiple portals shown once</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⏰</div>
+        <div class="feature-title">Update Alerts</div>
+        <div class="feature-desc">Notified when deadlines change or addenda posted</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✉️</div>
+        <div class="feature-title">Daily Digest</div>
+        <div class="feature-desc">One email per day, only when new tenders exist</div>
       </div>
     </div>
   </div>
 
-  <!-- Success View -->
-  <div id="view-success" style="display:none">
-    <div class="card">
-      <div class="success">
-        <div class="icon">📬</div>
-        <h2>Check Your Email</h2>
-        <p>
-          We've sent a verification link to<br>
-          <strong id="registered-email"></strong>
-        </p>
-        <p style="margin-top:16px">
-          Click the link to activate your subscription.<br>
-          <a href="" onclick="showRegister(); return false;">← Back to registration</a>
-        </p>
-      </div>
+  <!-- ─── Success View ─────────────────────────────────────── -->
+  <div class="card-body" id="view-success" style="display:none">
+    <div class="success">
+      <div class="icon">📬</div>
+      <h2>Check Your Email</h2>
+      <p>
+        We've sent a verification link to<br>
+        <strong id="registered-email"></strong>
+      </p>
+      <p style="margin-top:14px">
+        Click the link to activate your subscription.<br>
+        <a href="" onclick="showRegister(); return false;">← Back to registration</a>
+      </p>
     </div>
   </div>
 
-  <!-- Unsubscribe View -->
-  <div id="view-unsub" style="display:none">
-    <div class="card unsub-card">
+  <!-- ─── Unsubscribe View ────────────────────────────────── -->
+  <div class="card-body" id="view-unsub" style="display:none">
+    <div class="unsub-card">
       <div class="icon">📭</div>
       <h2>Unsubscribe from Tender Alerts</h2>
       <p>You'll stop receiving daily tender digests.</p>
 
       <div class="error-msg" id="unsub-error"></div>
 
-      <form id="unsub-form" onsubmit="handleUnsub(event)" style="margin-top:20px">
+      <form id="unsub-form" onsubmit="handleUnsub(event)" style="margin-top:16px">
         <div class="form-group">
           <input type="email" id="unsub-email" placeholder="Enter your email" required>
         </div>
-        <button type="submit" id="unsub-btn">Unsubscribe</button>
+        <button type="submit" class="btn-primary" id="unsub-btn">Unsubscribe</button>
       </form>
 
-      <p style="margin-top:16px;font-size:13px">
+      <p style="margin-top:14px;font-size:12.5px">
         Changed your mind? <a href="" style="color:var(--green-700)">← Back to registration</a>
       </p>
     </div>
   </div>
 </div>
 
-<footer>
-  <p>
-    PITAS — PPRA IT-Tender Autonomous Sentinel
-    <br>
-    <a href="unsubscribe">Unsubscribe</a> ·
-    <a href="api/health">Health</a>
-  </p>
-</footer>
+<div class="page-footer">
+  PITAS — PPRA IT-Tender Autonomous Sentinel<br>
+  <a href="unsubscribe">Unsubscribe</a> · <a href="api/health">Health</a>
+</div>
 
 <script>
   // ─── Stats ───────────────────────────────────────────────
@@ -757,7 +671,6 @@
 
     const website = document.getElementById('website').value;
     if (website) {
-      // Honeypot filled — bot detected, silently reject
       showSuccess(email);
       return;
     }
@@ -778,11 +691,7 @@
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Registration failed');
-      }
-
+      if (!res.ok) throw new Error(data.error || 'Registration failed');
       showSuccess(email);
     } catch (err) {
       errDiv.textContent = err.message;
@@ -810,25 +719,16 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Unsubscribe failed');
-      }
+      if (!res.ok) throw new Error(data.error || 'Unsubscribe failed');
 
       document.getElementById('unsub-form').innerHTML = `
-        <div style="padding:20px;text-align:center">
-          <div style="font-size:36px;margin-bottom:12px">✅</div>
-          <p style="color:var(--green-700);font-weight:600">Unsubscribed successfully</p>
-          <p style="color:var(--gray-500);font-size:13px;margin-top:8px">
-            You won't receive any more tender alerts.
-          </p>
-          <p style="margin-top:16px">
-            <a href="" style="color:var(--green-700);font-size:13px">← Re-register</a>
-          </p>
-        </div>
-      `;
+        <div style="padding:16px;text-align:center">
+          <div style="font-size:32px;margin-bottom:10px">✅</div>
+          <p style="color:var(--green-700);font-weight:600;font-size:14px">Unsubscribed successfully</p>
+          <p style="color:var(--gray-500);font-size:12.5px;margin-top:6px">You won't receive any more tender alerts.</p>
+          <p style="margin-top:12px"><a href="" style="color:var(--green-700);font-size:12.5px">← Re-register</a></p>
+        </div>`;
     } catch (err) {
       errDiv.textContent = err.message;
       errDiv.style.display = 'block';
@@ -845,7 +745,7 @@
     const spinner = document.getElementById('check-now-spinner');
     const meta = document.getElementById('check-now-meta');
     const errorDiv = document.getElementById('check-now-error');
-    const resultsDiv = document.getElementById('check-now-results');
+    const resultsDiv = document.getElementById('check-results');
 
     btn.disabled = true;
     btnText.textContent = 'Scraping...';
@@ -858,22 +758,14 @@
     try {
       const res = await fetch('/api/check-now');
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Check failed');
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Check failed');
-      }
-
-      // Build meta info
       const duration = data.scrape_duration_ms ? `${(data.scrape_duration_ms / 1000).toFixed(1)}s` : '';
       let badge = '';
-      if (data.cached) {
-        badge = '<span class="cached-badge">cached</span>';
-      } else if (duration) {
-        badge = '<span class="fresh-badge">fresh</span>';
-      }
+      if (data.cached) badge = '<span class="cached-badge">cached</span>';
+      else if (duration) badge = '<span class="fresh-badge">fresh</span>';
       meta.innerHTML = `${data.tenders.length} IT tender${data.tenders.length !== 1 ? 's' : ''} found${badge ? ' — ' + badge : ''}${duration ? ' · ' + duration + ' scrape' : ''}`;
 
-      // Render results
       if (data.tenders.length === 0) {
         resultsDiv.innerHTML = '<div class="tender-empty">No IT-relevant tenders found at this time.</div>';
       } else {
@@ -884,12 +776,10 @@
             </div>
             <div class="tender-detail">
               ${t.department ? `<span>🏢 ${escapeHtml(t.department)}</span>` : ''}
-              ${t.closing_date ? `<span>📅 Closes: ${escapeHtml(t.closing_date)}</span>` : ''}
+              ${t.closing_date ? `<span>📅 ${escapeHtml(t.closing_date)}</span>` : ''}
               <span class="tender-source">${escapeHtml(t.source)}</span>
-              ${t.classification_reason ? `<span title="${escapeHtml(t.classification_reason)}">ℹ️ ${escapeHtml(t.classification_method)}</span>` : ''}
             </div>
-          </div>
-        `).join('');
+          </div>`).join('');
       }
       resultsDiv.style.display = 'block';
     } catch (err) {
@@ -908,7 +798,6 @@
   }
 
   // ─── Init ────────────────────────────────────────────────
-  // Route based on URL (handles both root and /pitas/ prefix)
   const path = window.location.pathname.replace(/^\/pitas/, '');
   if (path.startsWith('/unsubscribe')) {
     showUnsub();
